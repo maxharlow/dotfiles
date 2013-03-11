@@ -62,7 +62,7 @@ function git_branch {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-PS1="\n\[$lightblack\t $green\h:\w $yellow\$(git_branch)\$(git_dirty) $colouroff\]\n\$ "
+PS1="\n\[$lightblack\t $blue\h$lightblack:$green\w $yellow\$(git_branch)\$(git_dirty) $colouroff\]\n\$ "
 PS1="\e]0;\W\a$PS1"
 
 
