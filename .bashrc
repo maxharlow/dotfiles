@@ -54,15 +54,16 @@ onlightwhite='\e[0;107m'
 
 
 # prompt
-function git_dirty() {
+function git_dirty {
 	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
 }
 
-function git_branch() {
+function git_branch {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-PS1="\n\[$lightblack\t $green\h:\W $yellow\$(git_branch)\$(git_dirty) $red\$ $colouroff\]\]"
+PS1="\n\[$lightblack\t $green\h:\w $yellow\$(git_branch)\$(git_dirty) $colouroff\]\n\$ "
+PS1="\e]0;\W\a$PS1"
 
 
 # general
@@ -78,7 +79,13 @@ export HISTCONTROL=ignorespace:ignoredups
 
 
 # aliases
-alias ls='ls -hGF'
+if [[ "$OSTYPE" =~ 'linux' ]]
+	then LSCOLOURFLAG='--color=auto'
+elif [[ "$OSTYPE" =~ 'darwin' ]]
+	then LSCOLOURFLAG='-G'
+fi
+
+alias ls="ls -hF $LSCOLOURFLAG"
 alias ll='ls -la'
 alias grep='grep --color=auto'
 
