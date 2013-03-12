@@ -54,15 +54,21 @@ onlightwhite='\e[0;107m'
 
 
 # prompt
-function git_dirty {
-	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+function git-short-status {
+	if ! git rev-parse --git-dir &> /dev/null
+		then return 0
+	fi
+
+	gitbranch=$(git branch 2> /dev/null | sed -n '/^\*/s/^\* //p')
+
+	if ! git diff --quiet 2> /dev/null
+		then gitdirty='*'
+	fi
+
+	echo "($gitbranch)$gitdirty"
 }
 
-function git_branch {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
-PS1="\n\[$lightblack\t $blue\h$lightblack:$green\w $yellow\$(git_branch)\$(git_dirty) $colouroff\]\n\$ "
+PS1="\n\[$lightblack\t $blue\h$lightblack:$green\w $yellow\$(git-short-status)$colouroff\]\n\$ "
 PS1="\e]0;\W\a$PS1"
 
 
@@ -78,14 +84,20 @@ export HISTSIZE=100000
 export HISTCONTROL=ignorespace:ignoredups
 
 
-# aliases
-if [[ "$OSTYPE" =~ 'linux' ]]
-	then LSCOLOURFLAG='--color=auto'
-elif [[ "$OSTYPE" =~ 'darwin' ]]
-	then LSCOLOURFLAG='-G'
+# autocompletion
+if [ -f /etc/bash_completion ] && ! shopt -oq posix
+	then . /etc/bash_completion
 fi
 
-alias ls="ls -hF $LSCOLOURFLAG"
+
+# aliases
+if [[ "$OSTYPE" =~ 'linux' ]]
+	then lscolourflag='--color=auto'
+elif [[ "$OSTYPE" =~ 'darwin' ]]
+	then lscolourflag='-G'
+fi
+
+alias ls="ls -hF $lscolourflag"
 alias ll='ls -la'
 alias grep='grep --color=auto'
 
