@@ -101,6 +101,8 @@ fi
 alias ls="ls -hF $lscolourflag"
 alias ll='ls -la'
 alias grep='grep --color=auto'
+alias hgrep='history | grep '
+alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 
 
 # functions
