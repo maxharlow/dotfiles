@@ -79,6 +79,7 @@ shopt -s checkwinsize
 
 # history
 shopt -s histappend
+shopt -s cmdhist
 
 export HISTSIZE=100000
 export HISTCONTROL=ignorespace:ignoredups
