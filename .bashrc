@@ -77,10 +77,13 @@ export EDITOR=emacs
 
 shopt -s nocasematch
 shopt -s checkwinsize
+shopt -s extglob
+shopt -s no_empty_cmd_completion
 
 
 # history
 shopt -s histappend
+shopt -s histverify
 shopt -s cmdhist
 
 export HISTSIZE=100000
