@@ -73,6 +73,8 @@ PS1="\e]0;\W\a$PS1"
 
 
 # general
+export EDITOR=emacs
+
 shopt -s nocasematch
 shopt -s checkwinsize
 
@@ -100,6 +102,7 @@ fi
 
 alias ls="ls -hF $lscolourflag"
 alias ll='ls -la'
+alias tree='tree -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep '
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
