@@ -1,56 +1,44 @@
 # colours
-colouroff='\e[0m'
+standard=0
+bold=1
+underlined=4
+blinking=5
+inversed=7
+hidden=8
 
-black='\e[0;30m'
-red='\e[0;31m'
-green='\e[0;32m'
-yellow='\e[0;33m'
-blue='\e[0;34m'
-purple='\e[0;35m'
-cyan='\e[0;36m'
-white='\e[0;37m'
-lightblack='\e[0;90m'
-lightred='\e[0;91m'
-lightgreen='\e[0;92m'
-lightyellow='\e[0;93m'
-lightblue='\e[0;94m'
-lightpurple='\e[0;95m'
-lightcyan='\e[0;96m'
-lightwhite='\e[0;97m'
+black=30
+red=31
+green=32
+yellow=33
+blue=34
+magenta=35
+cyan=36
+white=37
+lightblack=90
+lightred=91
+lightgreen=92
+lightyellow=93
+lightblue=94
+lightmagenta=95
+lightcyan=96
+lightwhite=97
 
-boldblack='\e[1;30m' 
-boldred='\e[1;31m'
-boldgreen='\e[1;32m'
-boldyellow='\e[1;33m'
-boldblue='\e[1;34m'
-boldpurple='\e[1;35m'
-boldcyan='\e[1;36m'
-boldwhite='\e[1;37m'
-boldlightblack='\e[1;90m'
-boldlightred='\e[1;91m'
-boldlightgreen='\e[1;92m'
-boldlightyellow='\e[1;93m'
-boldlightblue='\e[1;94m'
-boldlightpurple='\e[1;95m'
-boldlightcyan='\e[1;96m'
-boldlightwhite='\e[1;97m'
-
-onblack='\e[40m'
-onred='\e[41m'
-ongreen='\e[42m'
-onyellow='\e[43m'
-onblue='\e[44m'
-onpurple='\e[45m'
-oncyan='\e[46m'
-onwhite='\e[47m'
-onlightblack='\e[0;100m'
-onlightred='\e[0;101m'
-onlightgreen='\e[0;102m'
-onlightyellow='\e[0;103m'
-onlightblue='\e[0;104m'
-onlightpurple='\e[0;105m'
-onlightcyan='\e[0;106m'
-onlightwhite='\e[0;107m'
+onblack=40
+onred=41
+ongreen=42
+onyellow=43
+onblue=44
+onmagenta=45
+oncyan=46
+onwhite=47
+onlightblack=100
+onlightred=101
+onlightgreen=102
+onlightyellow=103
+onlightblue=104
+onlightmagenta=105
+onlightcyan=106
+onlightwhite=107
 
 
 # prompt
@@ -68,7 +56,13 @@ function git-short-status {
 	echo "($gitbranch)$gitdirty"
 }
 
-PS1="\n\[$lightblack\t $blue\h$lightblack:$green\w $yellow\$(git-short-status)$colouroff\]\n\$ "
+end="\e[${standard}m"
+project="\e[${yellow}m"
+path="\e[${green}m"
+host="\e[${blue}m"
+unimportant="\e[${lightblack}m"
+
+PS1="\n\[$unimportant\t $host\h$unimportant:$path\w $project\$(git-short-status)$end\]\n\$ "
 PS1="\e]0;\W\a$PS1"
 
 
@@ -90,9 +84,34 @@ export HISTSIZE=100000
 export HISTCONTROL=ignorespace:ignoredups
 
 
-# autocompletion
+# completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix
 	then . /etc/bash_completion
+fi
+
+
+# colours
+filecolours="\
+:no=$standard\
+:fi=$lightblack\
+:di=$underlined;$green\
+:ln=$magenta\
+:or=$blinking;$white;$onred\
+:mi=$blinking;$white;$onred\
+:ex=$bold;$red\
+:*.app=$bold;$red\
+:*.txt=$standard:*.md=$standard\
+:*.sh=$yellow:*.h=$yellow:*.c=$yellow:*.cpp=$yellow:*.pl=$yellow:*.py=$yellow:*.rb=$yellow:*.php=$yellow:*.java=$yellow:*.scala=$yellow:*.sbt=$yellow:*.xml=$yellow:*.xsl=$yellow:*.html=$yellow:*.css=$yellow:*.js=$yellow:*.tex=$yellow:*.log=$yellow:*.properties=$yellow\
+:*.zip=$bold;$magenta:*.rar=$bold;$magenta:*.tar=$bold;$magenta:*.gz=$bold;$magenta:*.bz=$bold;$magenta:*.bz2=$bold;$magenta:*.7z=$bold;$magenta:*.jar=$bold;$magenta:*.war=$bold;$magenta:*.iso=$bold;$magenta:*.dmg=$bold;$magenta:\
+:*.rtf=$bold;$cyan:*.csv=$bold;$cyan:*.doc=$bold;$cyan:*.docx=$bold;$cyan:*.dot=$bold;$cyan:*.dotx=$bold;$cyan:*.xls=$bold;$cyan:*.xlsx=$bold;$cyan:*.ppt=$bold;$cyan:*.pptx=$bold;$cyan\
+:*.bmp=$cyan:*.png=$cyan:*.jpeg=$cyan:*.jpg=$cyan:*.gif=$cyan:*.tiff=$cyan:*.svg=$cyan:*.svgz=$cyan:*.ps=$cyan:*.eps=$cyan:*.psd=$cyan\
+:*.wav=$cyan:*.midi=$cyan:*.flac=$cyan:*.mka=$cyan:*.ogg=$cyan:*.mp3=$cyan:*.m4a=$cyan\
+:*.mpeg=$cyan:*.mpg=$cyan:*.mp4=$cyan:*.m4v=$cyan:*.mkv=$cyan:*.ogv=$cyan"
+
+if [[ "$OSTYPE" =~ 'linux' ]]
+        then export LS_COLORS=$filecolours
+elif [[ "$OSTYPE" =~ 'darwin' ]]
+        then export LSCOLORS=$filecolours
 fi
 
 
@@ -103,9 +122,9 @@ elif [[ "$OSTYPE" =~ 'darwin' ]]
 	then lscolourflag='-G'
 fi
 
-alias ls="ls -hF $lscolourflag"
-alias ll='ls -la'
-alias tree='tree -C'
+alias ls="ls -hF --group-directories-first $lscolourflag"
+alias ll='ls -loA'
+alias tree='tree --dirsfirst  -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep '
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
