@@ -1,46 +1,3 @@
-# colours
-standard=0
-bold=1
-underlined=4
-blinking=5
-inversed=7
-hidden=8
-
-black=30
-red=31
-green=32
-yellow=33
-blue=34
-magenta=35
-cyan=36
-white=37
-lightblack=90
-lightred=91
-lightgreen=92
-lightyellow=93
-lightblue=94
-lightmagenta=95
-lightcyan=96
-lightwhite=97
-
-onblack=40
-onred=41
-ongreen=42
-onyellow=43
-onblue=44
-onmagenta=45
-oncyan=46
-onwhite=47
-onlightblack=100
-onlightred=101
-onlightgreen=102
-onlightyellow=103
-onlightblue=104
-onlightmagenta=105
-onlightcyan=106
-onlightwhite=107
-
-
 # prompt
 function git-short-status {
 	if ! git rev-parse --git-dir &> /dev/null
@@ -56,14 +13,16 @@ function git-short-status {
 	echo "($gitbranch)$gitdirty"
 }
 
-end="\e[${standard}m"
-project="\e[${yellow}m"
-path="\e[${green}m"
-host="\e[${blue}m"
-unimportant="\e[${lightblack}m"
+x='\e[0m' # uncoloured
+y='\e[33m' # yellow
+g='\e[32m' # green
+b='\e[34m' # blue
+lb='\e[90m' # light black
+titlestart='\e]0;'
+titleend='\a'
 
-PS1="\n\[$unimportant\t $host\h$unimportant:$path\w $project\$(git-short-status)$end\]\n\$ "
-PS1="\e]0;\W\a$PS1"
+PS1="\n\[$lb\t $b\h$lb:$g\w $y\$(git-short-status)$x\]\n\$ "
+PS1="$titlestart\W$titleend$PS1"
 
 
 # general
@@ -91,28 +50,8 @@ fi
 
 
 # colours
-filecolours="\
-:no=$standard\
-:fi=$lightblack\
-:di=$underlined;$green\
-:ln=$magenta\
-:or=$blinking;$white;$onred\
-:mi=$blinking;$white;$onred\
-:ex=$bold;$red\
-:*.app=$bold;$red\
-:*.txt=$standard:*.md=$standard\
-:*.sh=$yellow:*.h=$yellow:*.c=$yellow:*.cpp=$yellow:*.pl=$yellow:*.py=$yellow:*.rb=$yellow:*.php=$yellow:*.java=$yellow:*.scala=$yellow:*.sbt=$yellow:*.xml=$yellow:*.xsl=$yellow:*.html=$yellow:*.css=$yellow:*.js=$yellow:*.tex=$yellow:*.log=$yellow:*.properties=$yellow\
-:*.zip=$bold;$magenta:*.rar=$bold;$magenta:*.tar=$bold;$magenta:*.gz=$bold;$magenta:*.bz=$bold;$magenta:*.bz2=$bold;$magenta:*.7z=$bold;$magenta:*.jar=$bold;$magenta:*.war=$bold;$magenta:*.iso=$bold;$magenta:*.dmg=$bold;$magenta:\
-:*.rtf=$bold;$cyan:*.csv=$bold;$cyan:*.doc=$bold;$cyan:*.docx=$bold;$cyan:*.dot=$bold;$cyan:*.dotx=$bold;$cyan:*.xls=$bold;$cyan:*.xlsx=$bold;$cyan:*.ppt=$bold;$cyan:*.pptx=$bold;$cyan\
-:*.bmp=$cyan:*.png=$cyan:*.jpeg=$cyan:*.jpg=$cyan:*.gif=$cyan:*.tiff=$cyan:*.svg=$cyan:*.svgz=$cyan:*.ps=$cyan:*.eps=$cyan:*.psd=$cyan\
-:*.wav=$cyan:*.midi=$cyan:*.flac=$cyan:*.mka=$cyan:*.ogg=$cyan:*.mp3=$cyan:*.m4a=$cyan\
-:*.mpeg=$cyan:*.mpg=$cyan:*.mp4=$cyan:*.m4v=$cyan:*.mkv=$cyan:*.ogv=$cyan"
-
-if [[ "$OSTYPE" =~ 'linux' ]]
-        then export LS_COLORS=$filecolours
-elif [[ "$OSTYPE" =~ 'darwin' ]]
-        then export LSCOLORS=$filecolours
-fi
+export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=3:bd=34;46:cd=34;43:su=41:sg=46:tw=42:ow=43'
+export LSCOLORS='cxfxexdxbxegedabagacad'
 
 
 # aliases
@@ -122,7 +61,7 @@ elif [[ "$OSTYPE" =~ 'darwin' ]]
 	then lscolourflag='-G'
 fi
 
-alias ls="ls -hF --group-directories-first $lscolourflag"
+alias ls="ls -hF $lscolourflag"
 alias ll='ls -loA'
 alias tree='tree --dirsfirst  -C'
 alias grep='grep --color=auto'
