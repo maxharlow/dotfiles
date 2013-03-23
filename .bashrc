@@ -67,6 +67,7 @@ alias tree='tree --dirsfirst  -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep'
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
+alias git-home="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
 
 
 # functions
@@ -83,6 +84,6 @@ function extract {
 		*.zip)		unzip $1 ;;
 		*.rar)		rar x $1 ;;
 		*.7z)		7z x $1 ;;
-		*)			echo "cannot extract: $1" ;;
+		*)	       	echo "cannot extract: $1" ;;
 	esac
 }
