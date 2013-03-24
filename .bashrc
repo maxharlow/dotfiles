@@ -1,4 +1,25 @@
-# prompt
+# functions
+function cl {
+	cd "$@" && ll
+}
+
+function extract {
+	case $1 in
+		*.tar)		tar xvf $1 ;;
+		*.tar.gz)	tar xvzf $1 ;;
+		*.tar.bz2)	tar xvjf $1 ;;
+		*.gz)		gunzip $1 ;;
+		*.bz2)		bunzip2 $1 ;;
+		*.tgz)		tar xvzf $1 ;;
+		*.tbz2)		tar xvjf $1 ;;
+		*.Z)		uncompress $1 ;;
+		*.zip)		unzip $1 ;;
+		*.rar)		rar x $1 ;;
+		*.7z)		7z x $1 ;;
+		*)	       	echo "cannot extract: $1" ;;
+	esac
+}
+
 function git-short-status {
 	if ! git rev-parse --git-dir &> /dev/null
 		then return 0
@@ -13,6 +34,8 @@ function git-short-status {
 	echo "($gitbranch)$gitdirty"
 }
 
+
+# prompt
 x='\e[0m' # uncoloured
 y='\e[33m' # yellow
 g='\e[32m' # green
@@ -71,26 +94,3 @@ alias grep='grep --color=auto'
 alias hgrep='history | grep'
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
-
-
-# functions
-function cl {
-        cd "$@" && ll
-}
-
-function extract {
-	case $1 in
-		*.tar)		tar xvf $1 ;;
-		*.tar.gz)	tar xvzf $1 ;;
-		*.tar.bz2)	tar xvjf $1 ;;
-		*.gz)		gunzip $1 ;;
-		*.bz2)		bunzip2 $1 ;;
-		*.tgz)		tar xvzf $1 ;;
-		*.tbz2)		tar xvjf $1 ;;
-		*.Z)		uncompress $1 ;;
-		*.zip)		unzip $1 ;;
-		*.rar)		rar x $1 ;;
-		*.7z)		7z x $1 ;;
-		*)	       	echo "cannot extract: $1" ;;
-	esac
-}
