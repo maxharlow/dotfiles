@@ -44,8 +44,11 @@ export HISTCONTROL=ignorespace:ignoredups
 
 
 # completion
-if [ -f /etc/bash_completion ] && ! shopt -oq posix
-	then . /etc/bash_completion
+if [ -f /usr/local/etc/bash_completion ]
+        then . /usr/local/etc/bash_completion
+fi
+if [ -f /etc/bash_completion ]
+        then . /etc/bash_completion
 fi
 
 
@@ -63,11 +66,11 @@ fi
 
 alias ls="ls -hF $lscolourflag"
 alias ll='ls -loA'
-alias tree='tree --dirsfirst  -C'
+alias tree='tree --dirsfirst -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep'
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
-alias git-home="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
+alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
 
 
 # functions
