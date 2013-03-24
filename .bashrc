@@ -1,3 +1,42 @@
+# general
+export EDITOR=emacs
+
+shopt -s nocasematch
+shopt -s checkwinsize
+shopt -s extglob
+shopt -s no_empty_cmd_completion
+
+
+# history
+shopt -s histappend
+shopt -s histverify
+shopt -s cmdhist
+
+export HISTSIZE=100000
+export HISTCONTROL=ignorespace:ignoredups
+
+
+# colours
+export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=3:bd=34;46:cd=34;43:su=41:sg=46:tw=42:ow=43'
+export LSCOLORS='cxfxexdxbxegedabagacad'
+
+
+# aliases
+if [[ "$OSTYPE" =~ 'linux' ]]
+	then lscolourflag='--color=auto'
+elif [[ "$OSTYPE" =~ 'darwin' ]]
+	then lscolourflag='-G'
+fi
+
+alias ls="ls -hF $lscolourflag"
+alias ll='ls -loA'
+alias tree='tree --dirsfirst -C'
+alias grep='grep --color=auto'
+alias hgrep='history | grep'
+alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
+alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
+
+
 # functions
 function cl {
 	cd "$@" && ll
@@ -16,7 +55,7 @@ function extract {
 		*.zip)		unzip $1 ;;
 		*.rar)		rar x $1 ;;
 		*.7z)		7z x $1 ;;
-		*)	       	echo "cannot extract: $1" ;;
+		*)		echo "cannot extract: $1" ;;
 	esac
 }
 
@@ -48,49 +87,10 @@ PS1="\n\[$lb\t $b\h$lb:$g\w $y\$(git-short-status)$x\]\n\$ "
 PS1="$titlestart\W$titleend$PS1"
 
 
-# general
-export EDITOR=emacs
-
-shopt -s nocasematch
-shopt -s checkwinsize
-shopt -s extglob
-shopt -s no_empty_cmd_completion
-
-
-# history
-shopt -s histappend
-shopt -s histverify
-shopt -s cmdhist
-
-export HISTSIZE=100000
-export HISTCONTROL=ignorespace:ignoredups
-
-
 # completion
-if [ -f /usr/local/etc/bash_completion ]
-        then . /usr/local/etc/bash_completion
-fi
 if [ -f /etc/bash_completion ]
-        then . /etc/bash_completion
+	then . /etc/bash_completion
 fi
-
-
-# colours
-export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=3:bd=34;46:cd=34;43:su=41:sg=46:tw=42:ow=43'
-export LSCOLORS='cxfxexdxbxegedabagacad'
-
-
-# aliases
-if [[ "$OSTYPE" =~ 'linux' ]]
-	then lscolourflag='--color=auto'
-elif [[ "$OSTYPE" =~ 'darwin' ]]
-	then lscolourflag='-G'
+if [ -f /usr/local/etc/bash_completion ]
+	then . /usr/local/etc/bash_completion
 fi
-
-alias ls="ls -hF $lscolourflag"
-alias ll='ls -loA'
-alias tree='tree --dirsfirst -C'
-alias grep='grep --color=auto'
-alias hgrep='history | grep'
-alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
-alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
