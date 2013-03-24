@@ -74,6 +74,10 @@ alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
 
 
 # functions
+function cl {
+        cd "$@" && ll
+}
+
 function extract {
 	case $1 in
 		*.tar)		tar xvf $1 ;;
