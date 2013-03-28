@@ -17,6 +17,10 @@ export HISTCONTROL=ignorespace:ignoredups
 
 
 # colours
+export LESS_TERMCAP_md=$(tput bold; tput setaf 2) # bold (green)
+export LESS_TERMCAP_us=$(tput smul; tput setaf 3) # underlined (yellow)
+export LESS_TERMCAP_so=$(tput smso; tput setaf 1; tput setab 7) # standout (red on white)
+
 export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=3:bd=34;46:cd=34;43:su=41:sg=46:tw=42:ow=43'
 export LSCOLORS='cxfxexdxbxegedabagacad'
 
