@@ -79,15 +79,23 @@ function git-short-status {
 
 
 # prompt
-x='\e[0m' # uncoloured
-y='\e[33m' # yellow
-g='\e[32m' # green
-b='\e[34m' # blue
-lb='\e[90m' # light black
-titlestart='\e]0;'
-titleend='\a'
+norm=$(tput sgr0) # normal text
 
-PS1="\n\[$lb\t $b\h$lb:$g\w $y\$(git-short-status)$x\]\n\$ "
+k=$(tput setaf 0) # black
+r=$(tput setaf 1) # red
+g=$(tput setaf 2) # green
+y=$(tput setaf 3) # yellow
+b=$(tput setaf 4) # blue
+m=$(tput setaf 5) # magenta
+c=$(tput setaf 6) # cyan
+w=$(tput setaf 7) # white
+
+lk='\e[90m' # light black
+
+titlestart='\e]0;'
+titleend=$(tput bel)
+
+PS1="\n$lk\t $b\h$lk:$g\w $y\$(git-short-status)$norm\n\$ "
 PS1="$titlestart\W$titleend$PS1"
 
 
