@@ -1,5 +1,6 @@
 # general
 export EDITOR=emacs
+export LESSOPEN="| lesspipe %s"
 
 shopt -s nocasematch
 shopt -s checkwinsize
