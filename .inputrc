@@ -1,3 +1,23 @@
+# general
 set completion-ignore-case on
 set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set mark-symlinked-directories on
+set skip-completed-text on
 set expand-tilde on
+
+
+# bind up/down keys to incrementally search history
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+
+# bind modifier plus left/right keys to move by word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+
+# bind space to also expand !-expressions
+$if Bash
+    Space: magic-space
+$endif
