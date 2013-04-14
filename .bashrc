@@ -15,6 +15,7 @@ shopt -s cmdhist
 
 export HISTSIZE=100000
 export HISTCONTROL=ignorespace:ignoredups
+export PROMPT_COMMAND='history -a'
 
 
 # colours
