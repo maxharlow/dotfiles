@@ -22,8 +22,8 @@ export PROMPT_COMMAND='history -a'
 export LESS_TERMCAP_md=$(tput bold) # bold
 export LESS_TERMCAP_us=$(tput smul) # underlined
 export LESS_TERMCAP_ue=$(tput rmul) # end underlined
-export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # standout (bold yellow on blue)
-export LESS_TERMCAP_se=$(tput sgr0) # end standout
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 1) # standout (bold yellow on red)
+export LESS_TERMCAP_se=$(tput sgr 0) # end standout
 
 export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=3:bd=34;46:cd=34;43:su=41:sg=46:tw=42:ow=43'
 export LSCOLORS='cxfxexdxbxegedabagacad'
