@@ -96,11 +96,11 @@ w=$(tput setaf 7) # white
 
 lk='\e[90m' # light black
 
-titlestart='\e]0;'
-titleend=$(tput bel)
+title='\e]0;'
+endtitle=$(tput bel)
 
 PS1="\n$lk\t $b\h$lk:$g\w $y\$(git-short-status)$norm\n\$ "
-PS1="$titlestart\W$titleend$PS1"
+PS1+="$title\W$endtitle"
 
 
 # completion
