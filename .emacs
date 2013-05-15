@@ -30,6 +30,11 @@
 (set-face-background 'show-paren-match "blue")
 
 
+; default tab handling
+(setq-default tab-width 4)
+(setq-default tab-stop-list (number-sequence 4 120 4))
+
+
 ; mouse
 (xterm-mouse-mode t)
 (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 1)))
