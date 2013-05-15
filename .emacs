@@ -4,13 +4,13 @@
 
 ; mode-line format
 (setq default-mode-line-format
-    (list
-        " " 'mode-line-modified
-	" " 'mode-line-buffer-identification
-        " " 'mode-line-modes
-	" " 'mode-line-position
-	" " 'vc-mode
-    )
+	(list
+		" " 'mode-line-modified
+		" " 'mode-line-buffer-identification
+		" " 'mode-line-modes
+		" " 'mode-line-position
+		" " 'vc-mode
+	)
 )
 
 
