@@ -43,6 +43,7 @@ alias grep='grep --color=auto'
 alias hgrep='history | grep'
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
+alias e='emacs'
 
 
 # functions
