@@ -2,7 +2,15 @@
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+(unless (package-installed-p 'auto-complete) (package-refresh-contents) (package-install 'auto-complete))
 (unless (package-installed-p 'scala-mode2) (package-refresh-contents) (package-install 'scala-mode2))
+
+
+; auto-complete
+(add-to-list 'load-path "~/.emacs.d/plugins/autocomplete/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/autocomplete/ac-dict")
+(ac-config-default)
 
 
 ; default tab handling
@@ -37,4 +45,3 @@
 (global-hl-line-mode t)    ; current line highlighting
 (global-linum-mode t)      ; line numbering
 (setq linum-format "%3d ")
-
