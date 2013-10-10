@@ -37,6 +37,10 @@
   (package-refresh-contents)
   (package-install 'undo-tree))
 (unless
+  (package-installed-p 'idle-highlight-mode)
+  (package-refresh-contents)
+  (package-install 'idle-highlight-mode))
+(unless
   (package-installed-p 'diff-hl)
   (package-refresh-contents)
   (package-install 'diff-hl))
@@ -64,6 +68,10 @@
 
 ; undo-tree
 (global-undo-tree-mode t)
+
+
+; highlight other instances of current word
+(idle-highlight-mode)
 
 
 ; inline diffs
