@@ -1,47 +1,84 @@
+; mode-line format
+(setq-default mode-line-format
+  (list " " 'mode-line-modified
+        " " 'mode-line-buffer-identification
+	" " 'mode-name
+        " " 'vc-mode
+        " " 'mode-line-position))
+
+
+; why backup when we can autosave
+(setq make-backup-files nil)
+(setq auto-save-visited-file-name t)
+(setq auto-save-timeout 5)
+
+
+; builtin modes
+(menu-bar-mode -1)         ; no menubar
+(show-paren-mode t)        ; highlight matching parentheses
+(electric-pair-mode t)     ; automatically pair characters
+(electric-indent-mode t)   ; automatically indent
+(global-hl-line-mode t)    ; highlight current line
+(global-linum-mode t)      ; numbered lines
+(setq linum-format "%3d ")
+
+
 ; packages
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-(unless (package-installed-p 'auto-complete) (package-refresh-contents) (package-install 'auto-complete))
-(unless (package-installed-p 'scala-mode2) (package-refresh-contents) (package-install 'scala-mode2))
+(unless
+  (package-installed-p 'auto-complete)
+  (package-refresh-contents)
+  (package-install 'auto-complete))
+(unless
+  (package-installed-p 'undo-tree)
+  (package-refresh-contents)
+  (package-install 'undo-tree))
+(unless
+  (package-installed-p 'diff-hl)
+  (package-refresh-contents)
+  (package-install 'diff-hl))
+(unless
+  (package-installed-p 'projectile)
+  (package-refresh-contents)
+  (package-install 'projectile))
+(unless
+  (package-installed-p 'grizzl)
+  (package-refresh-contents)
+  (package-install 'grizzl))
+(unless
+  (package-installed-p 'scala-mode2)
+  (package-refresh-contents)
+  (package-install 'scala-mode2))
 
 
 ; auto-complete
-(add-to-list 'load-path "~/.emacs.d/plugins/autocomplete/")
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/autocomplete/ac-dict")
 (ac-config-default)
+(setq ac-auto-start 1)
+(setq ac-auto-show-menu ac-delay)
+(setq ac-quick-help-delay (+ ac-auto-show-menu 0.5))
 
 
-; default tab handling
-(setq-default tab-width 4)
-(setq-default tab-stop-list (number-sequence 4 120 4))
+; undo-tree
+(global-undo-tree-mode t)
 
 
-; backups
-(setq make-backup-files nil)
+; inline diffs
+(global-diff-hl-mode t)
+(setq diff-hl-margin-side 'right)
+(diff-hl-margin-mode)
 
 
-; mouse
-(xterm-mouse-mode t)
-(setq mouse-sel-mode t)
-(global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 1)))
-(global-set-key [mouse-5] '(lambda () (interactive) (scroll-up 1)))
+; project handling
+(projectile-global-mode t)
+(setq projectile-completion-system 'grizzl)
+(global-set-key (kbd "C-x f") 'projectile-find-file)
 
 
-; mode-line format
-(setq default-mode-line-format
-	  (list " " 'mode-line-modified
-			" " 'mode-line-buffer-identification
-			" " 'mode-line-modes
-			" " 'mode-line-position
-			" " 'vc-mode)
-)
-
-
-; modes
-(menu-bar-mode -1)         ; no menubar
-(show-paren-mode t)        ; show parentheses
-(global-hl-line-mode t)    ; current line highlighting
-(global-linum-mode t)      ; line numbering
-(setq linum-format "%3d ")
+; ensime
+(add-to-list 'load-path "/usr/lib/ensime/elisp/")
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
