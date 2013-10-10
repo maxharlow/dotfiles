@@ -101,7 +101,7 @@ ul=$(tput smul) # underlined
 title='\[\e]0;'
 endtitle=$(tput bel)'\]'
 
-PS1="\n$k$br\t $b\h$k$br:$g\w $y\$(git-short-status)$norm\n\$ "
+PS1="\n$k$br\t $b\h$k$br:$g\w $y$br\$(git-short-status)$norm\n\$ "
 PS1+="$title\W$endtitle"
 
 
