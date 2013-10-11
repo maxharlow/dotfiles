@@ -21,6 +21,8 @@
 (global-hl-line-mode t)    ; highlight current line
 (global-linum-mode t)      ; numbered lines
 (setq linum-format "%3d ")
+(require 'uniquify)        ; clarify buffer names
+(setq uniquify-buffer-name-style 'reverse)
 
 
 ; packages
