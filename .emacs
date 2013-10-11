@@ -58,6 +58,10 @@
   (package-installed-p 'scala-mode2)
   (package-refresh-contents)
   (package-install 'scala-mode2))
+(unless
+  (package-installed-p 'markdown-mode)
+  (package-refresh-contents)
+  (package-install 'markdown-mode))
 
 
 ; auto-complete
