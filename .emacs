@@ -14,16 +14,16 @@
 
 
 ; builtin modes
-(menu-bar-mode -1)         ; no menubar
-(show-paren-mode t)        ; highlight matching parentheses
-(electric-pair-mode t)     ; automatically pair characters
-(electric-indent-mode t)   ; automatically indent
-(global-hl-line-mode t)    ; highlight current line
-(global-linum-mode t)      ; numbered lines
+(menu-bar-mode -1)          ; no menubar
+(show-paren-mode t)         ; highlight matching parentheses
+(electric-pair-mode t)      ; automatically pair characters
+(electric-indent-mode t)    ; automatically indent
+(global-auto-revert-mode t) ; automatically reload changed buffers
+(global-hl-line-mode t)     ; highlight current line
+(global-linum-mode t)       ; numbered lines
 (setq linum-format "%3d ")
-(require 'uniquify)        ; clarify buffer names
+(require 'uniquify)         ; clarify buffer names
 (setq uniquify-buffer-name-style 'reverse)
-
 
 ; packages
 (package-initialize)
