@@ -25,6 +25,12 @@
 (require 'uniquify)         ; clarify buffer names
 (setq uniquify-buffer-name-style 'reverse)
 
+
+; shortcuts
+(global-set-key "\M-n" "\C-u1\C-v")
+(global-set-key "\M-p" "\C-u1\M-v")
+
+
 ; packages
 (package-initialize)
 (add-to-list 'package-archives
