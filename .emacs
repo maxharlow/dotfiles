@@ -13,6 +13,10 @@
 (setq auto-save-timeout 5)
 
 
+; default character encoding
+(set-language-environment "UTF-8")
+
+
 ; builtin modes
 (menu-bar-mode -1)          ; no menubar
 (show-paren-mode t)         ; highlight matching parentheses
