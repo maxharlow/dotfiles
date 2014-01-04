@@ -69,6 +69,10 @@
   (package-refresh-contents)
   (package-install 'scala-mode2))
 (unless
+  (package-installed-p 'tern)
+  (package-refresh-contents)
+  (package-install 'tern))
+(unless
   (package-installed-p 'markdown-mode)
   (package-refresh-contents)
   (package-install 'markdown-mode))
@@ -102,7 +106,15 @@
 (global-set-key (kbd "C-x f") 'projectile-find-file)
 
 
-; ensime
+; ensime (scala)
 (add-to-list 'load-path "/usr/lib/ensime/elisp/")
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+
+; tern (javascript)
+(add-to-list 'load-path "/usr/lib/tern/emacs/")
+(autoload 'tern-mode "tern.el" nil t)
+(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(eval-after-load 'tern
+  '(progn (require 'tern-auto-complete) (tern-ac-setup)))
