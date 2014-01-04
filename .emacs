@@ -53,6 +53,10 @@
   (package-refresh-contents)
   (package-install 'idle-highlight-mode))
 (unless
+  (package-installed-p 'multiple-cursors)
+  (package-refresh-contents)
+  (package-install 'multiple-cursors))
+(unless
   (package-installed-p 'diff-hl)
   (package-refresh-contents)
   (package-install 'diff-hl))
