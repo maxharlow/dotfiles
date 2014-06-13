@@ -22,13 +22,11 @@
 (show-paren-mode t)         ; highlight matching parentheses
 (electric-pair-mode t)      ; automatically pair characters
 (electric-indent-mode t)    ; automatically indent
-(ido-mode t)                ; interactively do things
+(icomplete-mode t)          ; autocompletion in minibuffer
 (global-auto-revert-mode t) ; automatically reload changed buffers
 (global-hl-line-mode t)     ; highlight current line
 (global-linum-mode t)       ; numbered lines
 (setq linum-format "%3d ")
-(require 'uniquify)         ; clarify buffer names
-(setq uniquify-buffer-name-style 'reverse)
 
 
 ; shortcuts
