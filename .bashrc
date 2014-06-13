@@ -42,6 +42,7 @@ alias tree='tree --dirsfirst -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep'
 alias share='python -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
+alias randmac="sudo ifconfig en0 ether $(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')"
 alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
 alias e='emacs'
 
