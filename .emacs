@@ -92,7 +92,8 @@
 
 ; undo-tree
 (global-undo-tree-mode t)
-
+(setq undo-tree-auto-save-history t)
+(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
 
 ; highlight other instances of current word
 (idle-highlight-mode)
