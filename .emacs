@@ -19,6 +19,7 @@
 
 ; truncate lines
 (setq-default truncate-lines t)
+(set-display-table-slot standard-display-table 'truncation ?…)
 
 
 ; builtin modes
