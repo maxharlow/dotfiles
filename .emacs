@@ -95,6 +95,7 @@
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
 
+
 ; highlight other instances of current word
 (idle-highlight-mode)
 
@@ -114,12 +115,12 @@
 ; ensime (scala)
 (add-to-list 'load-path "/usr/lib/ensime/elisp/")
 (require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+(add-hook 'scala-mode-hook (lambda () (ensime)))
 
 
 ; tern (javascript)
 (add-to-list 'load-path "/usr/lib/tern/emacs/")
-(autoload 'tern-mode "tern.el" nil t)
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+(require 'tern)
+(add-hook 'js-mode-hook (lambda () (tern-mode)))
 (eval-after-load 'tern
   '(progn (require 'tern-auto-complete) (tern-ac-setup)))
