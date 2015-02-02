@@ -74,18 +74,25 @@
   (package-refresh-contents)
   (package-install 'grizzl))
 (unless
+  (package-installed-p 'markdown-mode)
+  (package-refresh-contents)
+  (package-install 'markdown-mode))
+(unless
+  (package-installed-p 'cypher-mode)
+  (package-refresh-contents)
+  (package-install 'cypher-mode))
+(unless
   (package-installed-p 'scala-mode2)
   (package-refresh-contents)
   (package-install 'scala-mode2))
 (unless
+  (package-installed-p 'ensime)
+  (package-refresh-contents)
+  (package-install 'ensime))
+(unless
   (package-installed-p 'tern)
   (package-refresh-contents)
   (package-install 'tern))
-(unless
-  (package-installed-p 'markdown-mode)
-  (package-refresh-contents)
-  (package-install 'markdown-mode))
-
 
 ; auto-complete
 (require 'auto-complete-config)
@@ -115,17 +122,3 @@
 (projectile-global-mode t)
 (setq projectile-completion-system 'grizzl)
 (global-set-key (kbd "C-x f") 'projectile-find-file)
-
-
-; ensime (scala)
-(add-to-list 'load-path "/usr/lib/ensime/elisp/")
-(require 'ensime)
-(add-hook 'scala-mode-hook (lambda () (ensime)))
-
-
-; tern (javascript)
-(add-to-list 'load-path "/usr/lib/tern/emacs/")
-(require 'tern)
-(add-hook 'js-mode-hook (lambda () (tern-mode)))
-(eval-after-load 'tern
-  '(progn (require 'tern-auto-complete) (tern-ac-setup)))
