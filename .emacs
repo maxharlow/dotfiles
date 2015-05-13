@@ -1,10 +1,11 @@
 ; mode-line format
 (setq-default mode-line-format
-  (list " " 'mode-line-modified
-        " " 'mode-line-buffer-identification
-	" " 'mode-name
-        " " 'vc-mode
-        " " 'mode-line-position))
+  (list " " mode-line-modified
+        " " mode-line-buffer-identification
+        " " (upcase (symbol-name buffer-file-coding-system))
+        " " mode-name
+        " " vc-mode
+        " " mode-line-position))
 
 
 ; why backup when we can autosave
@@ -14,7 +15,7 @@
 
 
 ; default character encoding
-(set-language-environment "UTF-8")
+(prefer-coding-system 'utf-8-unix)
 
 
 ; truncate lines
