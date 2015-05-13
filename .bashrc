@@ -71,6 +71,12 @@ function extract {
 	esac
 }
 
+function every {
+    while sleep $1
+    do $2
+    done
+}
+
 function git-short-status {
 	if ! git rev-parse --git-dir &> /dev/null
 		then return 0
