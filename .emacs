@@ -51,6 +51,10 @@
   (package-refresh-contents)
   (package-install 'auto-complete))
 (unless
+  (package-installed-p 'flycheck)
+  (package-refresh-contents)
+  (package-install 'flycheck))
+(unless
   (package-installed-p 'undo-tree)
   (package-refresh-contents)
   (package-install 'undo-tree))
@@ -95,12 +99,17 @@
   (package-refresh-contents)
   (package-install 'tern))
 
+
 ; auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
 (setq ac-auto-start 1)
 (setq ac-auto-show-menu ac-delay)
 (setq ac-quick-help-delay (+ ac-auto-show-menu 0.5))
+
+
+; flycheck
+(global-flycheck-mode t)
 
 
 ; undo-tree
