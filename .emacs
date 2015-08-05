@@ -11,7 +11,8 @@
 ; why backup when we can autosave
 (setq make-backup-files nil)
 (setq auto-save-visited-file-name t)
-(setq auto-save-timeout 5)
+(setq auto-save-timeout 1)
+(setq auto-save-interval 20)
 
 
 ; default character encoding
