@@ -132,7 +132,7 @@
 
 ; inline diffs
 (global-diff-hl-mode t)
-(setq diff-hl-margin-side 'right)
+(setq diff-hl-side 'right)
 (diff-hl-margin-mode)
 
 
