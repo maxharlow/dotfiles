@@ -84,6 +84,10 @@
   (package-refresh-contents)
   (package-install 'markdown-mode))
 (unless
+  (package-installed-p 'dockerfile-mode)
+  (package-refresh-contents)
+  (package-install 'dockerfile-mode))
+(unless
   (package-installed-p 'cypher-mode)
   (package-refresh-contents)
   (package-install 'cypher-mode))
