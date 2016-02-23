@@ -37,9 +37,16 @@
 (setq linum-format "%3d ")
 
 
-; shortcuts
-(global-set-key "\C-\M-n" "\C-u1\C-v")
-(global-set-key "\C-\M-p" "\C-u1\M-v")
+; shortcuts -- scroll without moving point
+(global-set-key (kbd "C-M-p") 'scroll-up-line)
+(global-set-key (kbd "C-M-n") 'scroll-down-line)
+
+
+; shortcuts -- window management
+(global-set-key (kbd "C-c <up>") 'enlarge-window)
+(global-set-key (kbd "C-c <down>") 'shrink-window)
+(global-set-key (kbd "C-c <left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-c <right>") 'enlarge-window-horizontally)
 
 
 ; packages
