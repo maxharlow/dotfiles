@@ -38,8 +38,8 @@
 
 
 ; shortcuts -- scroll without moving point
-(global-set-key (kbd "C-M-p") 'scroll-up-line)
-(global-set-key (kbd "C-M-n") 'scroll-down-line)
+(global-set-key (kbd "C-M-n") 'scroll-up-line)
+(global-set-key (kbd "C-M-p") 'scroll-down-line)
 
 
 ; shortcuts -- window management
