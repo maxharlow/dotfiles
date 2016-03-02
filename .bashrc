@@ -7,6 +7,8 @@ shopt -s checkwinsize
 shopt -s extglob
 shopt -s no_empty_cmd_completion
 
+set -o noclobber
+
 
 # history
 shopt -s histappend
@@ -15,6 +17,7 @@ shopt -s cmdhist
 
 export HISTSIZE=100000
 export HISTCONTROL=ignorespace:ignoredups
+export HISTTIMEFORMAT='%F %T '
 export PROMPT_COMMAND='history -a'
 
 
