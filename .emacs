@@ -148,3 +148,7 @@
 (projectile-global-mode t)
 (setq projectile-completion-system 'grizzl)
 (global-set-key (kbd "C-x f") 'projectile-find-file)
+
+
+; editorconfig
+(editorconfig-mode t)
