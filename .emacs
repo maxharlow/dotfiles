@@ -87,6 +87,10 @@
   (package-refresh-contents)
   (package-install 'grizzl))
 (unless
+  (package-installed-p 'editorconfig)
+  (package-refresh-contents)
+  (package-install 'editorconfig))
+(unless
   (package-installed-p 'markdown-mode)
   (package-refresh-contents)
   (package-install 'markdown-mode))
