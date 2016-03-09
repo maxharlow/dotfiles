@@ -95,6 +95,10 @@
   (package-refresh-contents)
   (package-install 'markdown-mode))
 (unless
+  (package-installed-p 'yaml-mode)
+  (package-refresh-contents)
+  (package-install 'yaml-mode))
+(unless
   (package-installed-p 'dockerfile-mode)
   (package-refresh-contents)
   (package-install 'dockerfile-mode))
