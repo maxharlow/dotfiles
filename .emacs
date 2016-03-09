@@ -138,10 +138,6 @@
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
 
 
-; highlight other instances of current word
-(idle-highlight-mode)
-
-
 ; inline diffs
 (global-diff-hl-mode t)
 (setq diff-hl-side 'right)
