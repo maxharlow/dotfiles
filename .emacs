@@ -140,8 +140,12 @@
 
 ; inline diffs
 (global-diff-hl-mode t)
+(diff-hl-margin-mode t)
+(diff-hl-flydiff-mode t)
 (setq diff-hl-side 'right)
-(diff-hl-margin-mode)
+(set-face-attribute 'diff-added nil :background "green")
+(set-face-attribute 'diff-removed nil :background "red")
+(set-face-attribute 'diff-changed nil :background "blue")
 
 
 ; project handling
