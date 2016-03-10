@@ -35,6 +35,7 @@
 (global-hl-line-mode t)     ; highlight current line
 (global-linum-mode t)       ; numbered lines
 (setq linum-format "%3d ")
+(set-face-attribute 'linum nil :foreground "brightblack")
 
 
 ; shortcuts
