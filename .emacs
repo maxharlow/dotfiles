@@ -129,10 +129,6 @@
 (setq ac-quick-help-delay (+ ac-auto-show-menu 0.5))
 
 
-; flycheck
-(global-flycheck-mode t)
-
-
 ; undo-tree
 (global-undo-tree-mode t)
 (setq undo-tree-auto-save-history t)
