@@ -42,10 +42,16 @@
 (global-set-key (kbd "C-M-n") 'scroll-up-line)
 (global-set-key (kbd "C-M-p") 'scroll-down-line)
 
-(global-set-key (kbd "C-c <up>") 'enlarge-window)
-(global-set-key (kbd "C-c <down>") 'shrink-window)
-(global-set-key (kbd "C-c <left>") 'shrink-window-horizontally)
-(global-set-key (kbd "C-c <right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-M-c") nil)
+(global-set-key (kbd "C-M-c <up>") 'enlarge-window)
+(global-set-key (kbd "C-M-c <down>") 'shrink-window)
+(global-set-key (kbd "C-M-c <left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-M-c <right>") 'enlarge-window-horizontally)
+
+(global-set-key (kbd "C-c <up>") 'windmove-up)
+(global-set-key (kbd "C-c <down>") 'windmove-down)
+(global-set-key (kbd "C-c <left>") 'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
 
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert-string "#")))
 
