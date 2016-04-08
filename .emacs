@@ -62,6 +62,10 @@
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (unless
+  (package-installed-p 'which-key)
+  (package-refresh-contents)
+  (package-install 'which-key))
+(unless
   (package-installed-p 'auto-complete)
   (package-refresh-contents)
   (package-install 'auto-complete))
@@ -125,6 +129,10 @@
   (package-installed-p 'tern)
   (package-refresh-contents)
   (package-install 'tern))
+
+
+; which-key
+(which-key-mode t)
 
 
 ; auto-complete
