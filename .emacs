@@ -28,7 +28,6 @@
 (menu-bar-mode -1)          ; no menubar
 (show-paren-mode t)         ; highlight matching parentheses
 (electric-pair-mode t)      ; automatically pair characters
-(electric-indent-mode t)    ; automatically indent
 (icomplete-mode t)          ; autocompletion in minibuffer
 (global-subword-mode t)     ; stop point between camelcased words
 (global-auto-revert-mode t) ; automatically reload changed buffers
