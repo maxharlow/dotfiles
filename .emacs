@@ -4,9 +4,10 @@
     (let* (
               (saved       (if (buffer-modified-p) " *" (if buffer-read-only "READ-ONLY" "")))
               (coding      (upcase (symbol-name buffer-file-coding-system)))
-              (git-branch  (replace-regexp-in-string "\n\\'" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))
-              (git-dirty   (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " *" ""))
-              (git         (if (eq (vc-backend (buffer-file-name)) 'Git) (concat "   " git-branch git-dirty) ""))
+              (git         (when (eq (vc-backend (buffer-file-name)) 'Git)
+                               (concat "   "
+                                   (replace-regexp-in-string "\n\\'" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD"))
+                                   (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " *" ""))))
               (left        (format-mode-line (list saved " " (buffer-name) "   " mode-line-position)))
               (right       (format-mode-line (list "   " coding "   " mode-name git " ")))
               (spacer-size (- (window-total-width) (length left) (length right)))
