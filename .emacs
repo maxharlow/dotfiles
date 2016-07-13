@@ -126,9 +126,9 @@
   (package-refresh-contents)
   (package-install 'cypher-mode))
 (unless
-  (package-installed-p 'scala-mode2)
+  (package-installed-p 'scala-mode)
   (package-refresh-contents)
-  (package-install 'scala-mode2))
+  (package-install 'scala-mode))
 (unless
   (package-installed-p 'ensime)
   (package-refresh-contents)
