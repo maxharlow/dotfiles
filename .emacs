@@ -66,77 +66,31 @@
 
 ; packages
 (package-initialize)
-(add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-(unless
-  (package-installed-p 'which-key)
-  (package-refresh-contents)
-  (package-install 'which-key))
-(unless
-  (package-installed-p 'auto-complete)
-  (package-refresh-contents)
-  (package-install 'auto-complete))
-(unless
-  (package-installed-p 'flycheck)
-  (package-refresh-contents)
-  (package-install 'flycheck))
-(unless
-  (package-installed-p 'undo-tree)
-  (package-refresh-contents)
-  (package-install 'undo-tree))
-(unless
-  (package-installed-p 'idle-highlight-mode)
-  (package-refresh-contents)
-  (package-install 'idle-highlight-mode))
-(unless
-  (package-installed-p 'multiple-cursors)
-  (package-refresh-contents)
-  (package-install 'multiple-cursors))
-(unless
-  (package-installed-p 'diff-hl)
-  (package-refresh-contents)
-  (package-install 'diff-hl))
-(unless
-  (package-installed-p 'projectile)
-  (package-refresh-contents)
-  (package-install 'projectile))
-(unless
-  (package-installed-p 'grizzl)
-  (package-refresh-contents)
-  (package-install 'grizzl))
-(unless
-  (package-installed-p 'editorconfig)
-  (package-refresh-contents)
-  (package-install 'editorconfig))
-(unless
-  (package-installed-p 'markdown-mode)
-  (package-refresh-contents)
-  (package-install 'markdown-mode))
-(unless
-  (package-installed-p 'yaml-mode)
-  (package-refresh-contents)
-  (package-install 'yaml-mode))
-(unless
-  (package-installed-p 'dockerfile-mode)
-  (package-refresh-contents)
-  (package-install 'dockerfile-mode))
-(unless
-  (package-installed-p 'cypher-mode)
-  (package-refresh-contents)
-  (package-install 'cypher-mode))
-(unless
-  (package-installed-p 'scala-mode)
-  (package-refresh-contents)
-  (package-install 'scala-mode))
-(unless
-  (package-installed-p 'ensime)
-  (package-refresh-contents)
-  (package-install 'ensime))
-(unless
-  (package-installed-p 'tern)
-  (package-refresh-contents)
-  (package-install 'tern))
+(unless package-archive-contents (package-refresh-contents))
+
+(setq package-selected-packages
+    '(
+         which-key
+         auto-complete
+         flycheck
+         undo-tree
+         idle-highlight-mode
+         multiple-cursors
+         diff-hl
+         projectile
+         grizzl
+         editorconfig
+         markdown-mode
+         yaml-mode
+         dockerfile-mode
+         cypher-mode
+         scala-mode
+         ensime
+         tern))
+
+(package-install-selected-packages)
 
 
 ; which-key
