@@ -1,14 +1,14 @@
 ; mode-line format
-
 (defun mode-line ()
     (let* (
               (saved       (if (buffer-modified-p) " *" (if buffer-read-only "READ-ONLY" "")))
+              (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " ➤ ")))
               (coding      (upcase (symbol-name buffer-file-coding-system)))
               (git-branch  (when (eq (vc-backend (buffer-file-name)) 'Git)
                                (concat "   " (replace-regexp-in-string "\n" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))))
               (git-dirty   (when (eq (vc-backend (buffer-file-name)) 'Git)
                                (when (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " *")))
-              (left        (format-mode-line (list saved " " (buffer-name) "   " mode-line-position)))
+              (left        (format-mode-line (list saved " " project (buffer-name) "   " mode-line-position)))
               (right       (format-mode-line (list "   " coding "   " mode-name git-branch git-dirty " ")))
               (spacer-size (- (window-total-width) (length left) (length right)))
               (spacer      (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
