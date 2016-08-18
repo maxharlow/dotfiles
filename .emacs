@@ -37,7 +37,6 @@
 (menu-bar-mode -1)          ; no menubar
 (show-paren-mode t)         ; highlight matching parentheses
 (electric-pair-mode t)      ; automatically pair characters
-(icomplete-mode t)          ; autocompletion in minibuffer
 (global-subword-mode t)     ; stop point between camelcased words
 (global-auto-revert-mode t) ; automatically reload changed buffers
 (global-hl-line-mode t)     ; highlight current line
@@ -72,16 +71,15 @@
 
 (setq package-selected-packages
     '(
+         ivy
+         projectile
          which-key
          auto-complete
-         flycheck
          undo-tree
+         diff-hl
+         editorconfig
          idle-highlight-mode
          multiple-cursors
-         diff-hl
-         projectile
-         grizzl
-         editorconfig
          markdown-mode
          yaml-mode
          dockerfile-mode
@@ -91,6 +89,20 @@
          tern))
 
 (package-install-selected-packages)
+
+
+; ivy
+(ivy-mode t)
+(global-set-key [remap isearch-forward] 'counsel-grep-or-swiper)
+;; (setq completion-in-region-function 'ivy-completion-in-region)
+
+
+; projectile
+(setq projectile-completion-system 'ivy)
+(setq projectile-keymap-prefix (kbd "C-j"))
+(projectile-global-mode t)
+(define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
+(define-key projectile-mode-map (kbd "C-j C-s") (lambda () (interactive) (counsel-ag "" (projectile-project-root))))
 
 
 ; which-key
@@ -111,7 +123,7 @@
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
 
 
-; inline diffs
+; diff-hl (inline diffs)
 (global-diff-hl-mode t)
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
@@ -119,13 +131,6 @@
 (set-face-attribute 'diff-added nil :background "green")
 (set-face-attribute 'diff-removed nil :background "red")
 (set-face-attribute 'diff-changed nil :background "blue")
-
-
-; project handling
-(projectile-global-mode t)
-(setq projectile-completion-system 'grizzl)
-(global-set-key (kbd "C-x f") 'projectile-find-file)
-
 
 ; editorconfig
 (editorconfig-mode t)
