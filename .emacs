@@ -1,7 +1,7 @@
 ; mode-line format
 (defun mode-line ()
     (let* (
-              (saved       (if (buffer-modified-p) "* " (if buffer-read-only "READ-ONLY ")))
+              (saved       (if (buffer-modified-p) "* " (if buffer-read-only "× ")))
               (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " ➤ ")))
               (coding      (upcase (symbol-name buffer-file-coding-system)))
               (git-branch  (when (eq (vc-backend (buffer-file-name)) 'Git)
@@ -85,7 +85,6 @@
 ; ivy
 (ivy-mode t)
 (global-set-key [remap isearch-forward] 'counsel-grep-or-swiper)
-;; (setq completion-in-region-function 'ivy-completion-in-region)
 
 
 ; projectile
@@ -119,9 +118,9 @@
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
 (setq diff-hl-side 'right)
-(set-face-attribute 'diff-added nil :background "green")
-(set-face-attribute 'diff-removed nil :background "red")
-(set-face-attribute 'diff-changed nil :background "blue")
+(set-face-attribute 'diff-hl-insert nil :background "green")
+(set-face-attribute 'diff-hl-delete nil :background "red")
+(set-face-attribute 'diff-hl-change nil :background "blue")
 
 ; editorconfig
 (editorconfig-mode t)
