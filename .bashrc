@@ -80,18 +80,25 @@ function every {
     done
 }
 
-function git-short-status {
+function git-state {
 	if ! git rev-parse --git-dir &> /dev/null
 		then return 0
 	fi
 
-	gitbranch=$(git branch 2> /dev/null | sed -n '/^\*/s/^\* //p')
+	branch=$(git branch 2> /dev/null | sed -n '/^\*/s/^\* //p')
 
 	if ! git diff --quiet 2> /dev/null
-		then gitdirty='*'
+		then dirty='*'
 	fi
 
-	echo "($gitbranch)$gitdirty"
+	echo "($branch)$dirty"
+}
+
+function docker-state {
+    if [ -z "$DOCKER_MACHINE_NAME" ]
+        then return 0
+    fi
+    echo "[$DOCKER_MACHINE_NAME]"
 }
 
 
@@ -113,7 +120,7 @@ ul=$(tput smul) # underlined
 title='\[\e]0;'
 endtitle=$(tput bel)'\]'
 
-PS1="\n$k$br\t $b\h$k$br:$g\w $y$br\$(git-short-status)$norm\n\$ "
+PS1="\n$k$br\t $b\h$k$br:$g\w $y$br\$(git-state) $c$br\$(docker-state)$norm\n\$ "
 PS1+="$title\W$endtitle"
 
 
