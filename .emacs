@@ -117,9 +117,9 @@
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
 (setq diff-hl-side 'right)
-(set-face-attribute 'diff-hl-insert nil :background "green")
-(set-face-attribute 'diff-hl-delete nil :background "red")
-(set-face-attribute 'diff-hl-change nil :background "blue")
+(set-face-attribute 'diff-hl-insert nil :bold nil :background "green")
+(set-face-attribute 'diff-hl-delete nil :bold nil :background "red")
+(set-face-attribute 'diff-hl-change nil :bold nil :background "blue")
 
 ; editorconfig
 (editorconfig-mode t)
