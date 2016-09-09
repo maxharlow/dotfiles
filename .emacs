@@ -63,8 +63,10 @@
     '(
          ivy
          projectile
+         company
+         company-shell
+         company-tern
          which-key
-         auto-complete
          undo-tree
          diff-hl
          editorconfig
@@ -95,16 +97,20 @@
 (define-key projectile-mode-map (kbd "C-j C-s") (lambda () (interactive) (counsel-ag "" (projectile-project-root))))
 
 
+; company
+(global-company-mode t)
+(setq company-idle-delay 0)
+(add-to-list 'company-backends 'company-shell)
+(add-to-list 'company-backends 'company-tern)
+(define-key company-active-map (kbd "TAB") 'company-complete-selection)
+(set-face-attribute 'company-tooltip           nil :background "white")
+(set-face-attribute 'company-tooltip-selection nil :background "blue" :foreground "white")
+(set-face-attribute 'company-scrollbar-bg      nil :background "brightwhite")
+(set-face-attribute 'company-scrollbar-fg      nil :background "brightblack")
+
+
 ; which-key
 (which-key-mode t)
-
-
-; auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-auto-start 1)
-(setq ac-auto-show-menu ac-delay)
-(setq ac-quick-help-delay (+ ac-auto-show-menu 0.5))
 
 
 ; undo-tree
@@ -113,7 +119,7 @@
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
 
 
-; diff-hl (inline diffs)
+; diff-hl
 (global-diff-hl-mode t)
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
