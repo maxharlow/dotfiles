@@ -100,6 +100,7 @@
 ; company
 (global-company-mode t)
 (setq company-idle-delay 0)
+(setq company-tooltip-align-annotations t)
 (add-to-list 'company-backends 'company-shell)
 (add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
@@ -130,3 +131,7 @@
 
 ; editorconfig
 (editorconfig-mode t)
+
+
+; tern
+(add-hook 'js-mode-hook 'tern-mode)
