@@ -65,6 +65,7 @@
          projectile
          company
          company-shell
+         company-web
          company-tern
          which-key
          undo-tree
@@ -74,6 +75,7 @@
          markdown-mode
          yaml-mode
          dockerfile-mode
+         web-mode
          cypher-mode
          scala-mode
          ensime
@@ -102,6 +104,7 @@
 (setq company-idle-delay 0)
 (setq company-tooltip-align-annotations t)
 (add-to-list 'company-backends 'company-shell)
+(add-to-list 'company-backends 'company-web-html)
 (add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 (set-face-attribute 'company-tooltip           nil :background "white")
@@ -128,6 +131,7 @@
 (set-face-attribute 'diff-hl-insert nil :bold nil :background "green")
 (set-face-attribute 'diff-hl-delete nil :bold nil :background "red")
 (set-face-attribute 'diff-hl-change nil :bold nil :background "blue")
+
 
 ; editorconfig
 (editorconfig-mode t)
