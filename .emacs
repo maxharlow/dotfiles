@@ -54,11 +54,6 @@
 
 
 ; packages
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(unless package-archive-contents (package-refresh-contents))
-
 (setq package-selected-packages
     '(
          ivy
@@ -81,7 +76,17 @@
          ensime
          tern))
 
-(package-install-selected-packages)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(defun package-all-installed ()
+    (cl-loop for p in package-selected-packages
+        when (not (package-installed-p p)) return nil
+        finally return t))
+
+(unless (package-all-installed)
+    (package-refresh-contents)
+    (package-install-selected-packages))
 
 
 ; ivy
