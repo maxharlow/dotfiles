@@ -28,6 +28,10 @@
 (prefer-coding-system 'utf-8-unix)
 
 
+; remove scratch buffer
+(kill-buffer "*scratch*")
+
+
 ; truncate lines
 (setq-default truncate-lines t)
 (set-display-table-slot standard-display-table 'truncation ?…)
