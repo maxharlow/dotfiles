@@ -73,9 +73,9 @@
          editorconfig
          idle-highlight-mode
          markdown-mode
+         json-mode
          yaml-mode
          dockerfile-mode
-         web-mode
          cypher-mode
          scala-mode
          ensime
@@ -114,7 +114,6 @@
 (setq company-idle-delay 0)
 (setq company-tooltip-align-annotations t)
 (add-to-list 'company-backends 'company-shell)
-(add-to-list 'company-backends 'company-web-html)
 (add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 (set-face-attribute 'company-tooltip           nil :background "white")
