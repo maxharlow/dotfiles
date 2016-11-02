@@ -148,3 +148,5 @@
 
 ; tern
 (add-hook 'js-mode-hook 'tern-mode)
+(add-hook 'tern-mode-hook
+    (lambda () (setq tern-command (append tern-command '("--no-port-file")))))
