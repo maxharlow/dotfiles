@@ -63,6 +63,7 @@
 (setq package-selected-packages
     '(
          ivy
+         counsel
          projectile
          company
          company-shell
