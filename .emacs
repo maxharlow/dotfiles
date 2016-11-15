@@ -69,6 +69,7 @@
          company-shell
          company-web
          company-tern
+         move-text
          which-key
          undo-tree
          diff-hl
@@ -126,6 +127,11 @@
 
 ; which-key
 (which-key-mode t)
+
+
+; move-text
+(global-set-key (kbd "M-n") 'move-text-down)
+(global-set-key (kbd "M-p") 'move-text-up)
 
 
 ; undo-tree
