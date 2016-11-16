@@ -33,9 +33,10 @@
 (kill-buffer "*scratch*")
 
 
-; truncate lines
-(setq-default truncate-lines t)
+; layout display
+(set-display-table-slot standard-display-table 'vertical-border ?│)
 (set-display-table-slot standard-display-table 'truncation ?…)
+(setq-default truncate-lines t)
 
 
 ; builtin modes
