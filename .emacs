@@ -102,9 +102,12 @@
 
 ; ivy
 (ivy-mode t)
-(global-set-key [remap isearch-forward] 'counsel-grep-or-swiper)
-(global-set-key [remap isearch-backward] 'ivy-resume)
-(global-set-key [remap execute-extended-command] 'counsel-M-x)
+(global-set-key (kbd "C-r") 'ivy-resume)
+
+
+; swiper
+(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
 
 
 ; projectile
