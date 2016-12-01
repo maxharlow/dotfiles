@@ -35,6 +35,7 @@
 
 ; layout display
 (set-display-table-slot standard-display-table 'vertical-border ?│)
+(set-display-table-slot standard-display-table 'wrap ? )
 (set-display-table-slot standard-display-table 'truncation ?…)
 (setq-default truncate-lines t)
 
@@ -73,9 +74,10 @@
          move-text
          which-key
          undo-tree
-         diff-hl
          editorconfig
+         diff-hl
          idle-highlight-mode
+         indent-guide
          markdown-mode
          json-mode
          yaml-mode
@@ -117,6 +119,7 @@
 (global-company-mode t)
 (setq company-idle-delay 0)
 (setq company-tooltip-align-annotations t)
+(setq company-dabbrev-downcase nil)
 (add-to-list 'company-backends 'company-shell)
 (add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
@@ -138,7 +141,11 @@
 ; undo-tree
 (global-undo-tree-mode t)
 (setq undo-tree-auto-save-history t)
-(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs-undo/"))))
+(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo/"))))
+
+
+; editorconfig
+(editorconfig-mode t)
 
 
 ; diff-hl
@@ -151,8 +158,14 @@
 (set-face-attribute 'diff-hl-change nil :bold nil :background "blue")
 
 
-; editorconfig
-(editorconfig-mode t)
+; idle-highlight-mode
+(require 'idle-highlight-mode)
+(add-hook 'prog-mode-hook 'idle-highlight-mode)
+
+
+; indent-guide
+(indent-guide-global-mode t)
+(setq indent-guide-char "∙")
 
 
 ; tern
