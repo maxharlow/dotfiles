@@ -61,6 +61,11 @@
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert-string "#")))
 
 
+; dired
+(require 'dired)
+(setq dired-listing-switches "-lohaF")
+
+
 ; packages
 (setq package-selected-packages
     '(
