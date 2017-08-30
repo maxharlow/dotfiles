@@ -88,7 +88,7 @@ function git-state {
 	branch=$(git branch 2> /dev/null | sed -n '/^\*/s/^\* //p')
 
 	if ! git diff --quiet 2> /dev/null
-		then dirty='*'
+		then dirty='•'
 	fi
 
 	echo "($branch)$dirty"
@@ -103,24 +103,32 @@ function docker-state {
 
 
 # prompt
-norm=$(tput sgr 0) # normal text
+reg=$(tput sgr 0) # regular
+bld=$(tput bold)  # bold
+uln=$(tput smul)  # underlined
 
-k=$norm$(tput setaf 0) # black
-r=$norm$(tput setaf 1) # red
-g=$norm$(tput setaf 2) # green
-y=$norm$(tput setaf 3) # yellow
-b=$norm$(tput setaf 4) # blue
-m=$norm$(tput setaf 5) # magenta
-c=$norm$(tput setaf 6) # cyan
-w=$norm$(tput setaf 7) # white
+k=$reg$(tput setaf 0) # black
+r=$reg$(tput setaf 1) # red
+g=$reg$(tput setaf 2) # green
+y=$reg$(tput setaf 3) # yellow
+b=$reg$(tput setaf 4) # blue
+m=$reg$(tput setaf 5) # magenta
+c=$reg$(tput setaf 6) # cyan
+w=$reg$(tput setaf 7) # white
 
-br=$(tput bold) # bright/bold
-ul=$(tput smul) # underlined
+bk=$reg$(tput setaf 8)  # bright black
+br=$reg$(tput setaf 9)  # bright red
+bg=$reg$(tput setaf 10) # bright green
+by=$reg$(tput setaf 11) # bright yellow
+bb=$reg$(tput setaf 12) # bright blue
+bm=$reg$(tput setaf 13) # bright magenta
+bc=$reg$(tput setaf 14) # bright cyan
+bw=$reg$(tput setaf 15) # bright white
 
 title='\[\e]0;'
 endtitle=$(tput bel)'\]'
 
-PS1="\n$k$br\t $b\h$k$br:$g\w $y$br\$(git-state) $c$br\$(docker-state)$norm\n\$ "
+PS1="\n$bk$bld\t $b\h$bk:$g\w $y$bld\$(git-state) $c$bld\$(docker-state)$reg\n\$ "
 PS1+="$title\W$endtitle"
 
 
