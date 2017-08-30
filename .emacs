@@ -1,16 +1,16 @@
 ; mode-line format
 (defun mode-line ()
     (let* (
-              (saved       (if (buffer-modified-p) "* " (if buffer-read-only "× ")))
-              (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " ➤ ")))
+              (saved       (if (buffer-modified-p) "• " (if buffer-read-only "× ")))
+              (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " ❯ ")))
               (position    mode-line-position)
               (coding      (upcase (symbol-name buffer-file-coding-system)))
               (git-branch  (when (eq (vc-backend (buffer-file-name)) 'Git)
-                               (concat " | " (replace-regexp-in-string "\n" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))))
+                               (concat " ∙ " (replace-regexp-in-string "\n" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))))
               (git-dirty   (when (eq (vc-backend (buffer-file-name)) 'Git)
-                               (when (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " *")))
+                               (when (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " •")))
               (left        (format-mode-line (list " " saved project (buffer-name) "  " position)))
-              (right       (format-mode-line (list " " coding " | " mode-name git-branch git-dirty " ")))
+              (right       (format-mode-line (list " " coding " ∙ " mode-name git-branch git-dirty " ")))
               (spacer-size (- (window-total-width) (length left) (length right)))
               (spacer      (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
         (concat left spacer right)))
@@ -61,9 +61,40 @@
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert-string "#")))
 
 
+; colourscheme
+(set-face-attribute 'mode-line                nil :foreground "black"         :background "brightwhite" :inverse-video 'unspecified)
+(set-face-attribute 'line-number              nil :foreground "brightwhite"   :background "brightblack")
+(set-face-attribute 'line-number-current-line nil :foreground "white"         :background "brightblack")
+(set-face-attribute 'minibuffer-prompt        nil :foreground "brightwhite")
+(set-face-attribute 'highlight                nil                             :background "brightblack")
+(set-face-attribute 'region                   nil :foreground "black"         :background "brightblue")
+(set-face-attribute 'show-paren-match         nil :foreground "brightmagenta" :background 'unspecified)
+(set-face-attribute 'show-paren-mismatch      nil :foreground "white"         :background "red"         :inverse-video t)
+(set-face-attribute 'trailing-whitespace      nil :foreground 'unspecified    :background "red")
+
+
+; syntax highlighting
+(set-face-attribute 'font-lock-keyword-face       nil :foreground "blue")
+(set-face-attribute 'font-lock-builtin-face       nil :foreground "blue")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "blue")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "yellow")
+(set-face-attribute 'font-lock-constant-face      nil :foreground "yellow")
+(set-face-attribute 'font-lock-string-face        nil :foreground "green")
+(set-face-attribute 'font-lock-type-face          nil :foreground "cyan")
+(set-face-attribute 'font-lock-comment-face       nil :foreground "red")
+(set-face-attribute 'font-lock-warning-face       nil :foreground "white" :background "red" :weight 'bold :inherit 'unspecified)
+
+
 ; dired
 (require 'dired)
 (setq dired-listing-switches "-lohaF")
+(set-face-attribute 'dired-header     nil :foreground "brightwhite"                                   :inherit 'unspecified)
+(set-face-attribute 'dired-directory  nil :foreground "green"                                         :inherit 'unspecified)
+(set-face-attribute 'dired-symlink    nil :foreground "magenta"                                       :inherit 'unspecified)
+(set-face-attribute 'dired-mark       nil :foreground "black"       :background "white" :weight 'bold :inherit 'unspecified)
+(set-face-attribute 'dired-marked     nil :foreground "yellow"                          :weight 'bold :inherit 'unspecified)
+(set-face-attribute 'dired-flagged    nil :foreground "red"                             :weight 'bold :inherit 'unspecified)
+(set-face-attribute 'dired-perm-write nil                                                             :inherit 'unspecified)
 
 
 ; packages
@@ -107,12 +138,23 @@
 
 ; ivy
 (ivy-mode t)
+(setq ivy-use-selectable-prompt t)
 (global-set-key (kbd "C-r") 'ivy-resume)
+(set-face-attribute 'ivy-current-match           nil :foreground 'unspecified :background "brightblue"  :weight 'unspecified)
+(set-face-attribute 'ivy-minibuffer-match-face-1 nil :foreground 'unspecified :background 'unspecified  :weight 'unspecified)
+(set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
+(set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
+(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
 
 
 ; swiper
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
+(require 'swiper)
+(set-face-attribute 'swiper-match-face-1 nil :inherit 'ivy-minibuffer-match-face-1)
+(set-face-attribute 'swiper-match-face-2 nil :inherit 'ivy-minibuffer-match-face-2)
+(set-face-attribute 'swiper-match-face-3 nil :inherit 'ivy-minibuffer-match-face-3)
+(set-face-attribute 'swiper-match-face-4 nil :inherit 'ivy-minibuffer-match-face-4)
 
 
 ; projectile
@@ -131,10 +173,12 @@
 (add-to-list 'company-backends 'company-shell)
 (add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
-(set-face-attribute 'company-tooltip           nil :background "white")
-(set-face-attribute 'company-tooltip-selection nil :background "blue" :foreground "white")
-(set-face-attribute 'company-scrollbar-bg      nil :background "brightwhite")
-(set-face-attribute 'company-scrollbar-fg      nil :background "brightblack")
+(set-face-attribute 'company-tooltip            nil :foreground "black"       :background "white")
+(set-face-attribute 'company-tooltip-selection  nil :foreground "white"       :background "brightblue")
+(set-face-attribute 'company-tooltip-annotation nil :foreground "brightred")
+(set-face-attribute 'company-tooltip-common     nil :foreground "brightblack"                           :underline t)
+(set-face-attribute 'company-scrollbar-bg       nil                           :background "brightblack")
+(set-face-attribute 'company-scrollbar-fg       nil                           :background "brightwhite")
 
 
 ; which-key
@@ -150,6 +194,10 @@
 (global-undo-tree-mode t)
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo/"))))
+(set-face-attribute 'undo-tree-visualizer-active-branch-face nil :foreground "white" :weight 'bold)
+(set-face-attribute 'undo-tree-visualizer-default-face       nil :foreground "brightwhite")
+(set-face-attribute 'undo-tree-visualizer-unmodified-face    nil :foreground "cyan")
+(set-face-attribute 'undo-tree-visualizer-current-face       nil :foreground "red")
 
 
 ; editorconfig
@@ -161,19 +209,21 @@
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
 (setq diff-hl-side 'right)
-(set-face-attribute 'diff-hl-insert nil :bold nil :background "green")
-(set-face-attribute 'diff-hl-delete nil :bold nil :background "red")
-(set-face-attribute 'diff-hl-change nil :bold nil :background "blue")
+(set-face-attribute 'diff-hl-insert nil :foreground "brightgreen" :background "brightgreen" :inherit 'unspecified)
+(set-face-attribute 'diff-hl-delete nil :foreground "brightred"   :background "brightred"   :inherit 'unspecified)
+(set-face-attribute 'diff-hl-change nil :foreground "brightblue"  :background "brightblue")
 
 
 ; idle-highlight-mode
 (require 'idle-highlight-mode)
 (add-hook 'prog-mode-hook 'idle-highlight-mode)
+(set-face-attribute 'idle-highlight nil :foreground "brightmagenta" :inherit 'unspecified)
 
 
 ; indent-guide
 (indent-guide-global-mode t)
 (setq indent-guide-char "∙")
+(set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
 
 
 ; tern
