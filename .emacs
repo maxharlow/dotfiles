@@ -19,10 +19,10 @@
 
 
 ; why backup when we can autosave
-(setq make-backup-files nil)
-(setq auto-save-visited-file-name t)
+(auto-save-visited-mode t)
 (setq auto-save-timeout 1)
 (setq auto-save-interval 20)
+(setq make-backup-files nil)
 
 
 ; default character encoding
@@ -48,9 +48,7 @@
 (global-subword-mode t)     ; stop point between camelcased words
 (global-auto-revert-mode t) ; automatically reload changed buffers
 (global-hl-line-mode t)     ; highlight current line
-(global-linum-mode t)       ; numbered lines
-(setq linum-format "%3d ")
-(set-face-attribute 'linum nil :foreground "brightblack")
+(global-display-line-numbers-mode t)
 (setq uniquify-buffer-name-style 'forward)
 
 
@@ -105,7 +103,6 @@
          projectile
          company
          company-shell
-         company-web
          company-tern
          move-text
          which-key
