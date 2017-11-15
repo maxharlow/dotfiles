@@ -55,8 +55,10 @@
 ; shortcuts
 (global-set-key (kbd "C-M-n") 'scroll-up-line)
 (global-set-key (kbd "C-M-p") 'scroll-down-line)
-(global-set-key (kbd "M-;") 'comment-line)
-(global-set-key (kbd "M-3") '(lambda () (interactive) (insert-string "#")))
+(global-set-key (kbd "C-n")   (lambda () (interactive) (forward-line  5)))
+(global-set-key (kbd "C-p")   (lambda () (interactive) (forward-line -5)))
+(global-set-key (kbd "M-3")   (lambda () (interactive) (insert "#")))
+(global-set-key (kbd "M-;")   'comment-line)
 
 
 ; colourscheme
