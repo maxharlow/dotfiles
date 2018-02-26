@@ -110,6 +110,7 @@
          which-key
          undo-tree
          editorconfig
+         flycheck
          diff-hl
          idle-highlight-mode
          indent-guide
@@ -201,6 +202,13 @@
 
 ; editorconfig
 (editorconfig-mode t)
+
+
+; flycheck
+(global-flycheck-mode t)
+(set-face-attribute 'flycheck-error   nil :foreground "red"    :weight 'bold :underline t :inherit 'unspecified)
+(set-face-attribute 'flycheck-warning nil :foreground "yellow" :weight 'bold :underline t :inherit 'unspecified)
+(set-face-attribute 'flycheck-info    nil :foreground "green"  :weight 'bold :underline t :inherit 'unspecified)
 
 
 ; diff-hl
