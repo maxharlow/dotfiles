@@ -123,7 +123,6 @@
          ensime
          tern))
 
-(package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (defun package-all-installed ()
