@@ -98,6 +98,7 @@
 
 
 ; packages
+(require 'package)
 (setq package-selected-packages
     '(
          ivy
@@ -115,12 +116,11 @@
          idle-highlight-mode
          indent-guide
          markdown-mode
+         csv-mode
          json-mode
          yaml-mode
          dockerfile-mode
          cypher-mode
-         scala-mode
-         ensime
          tern))
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -205,9 +205,9 @@
 
 ; flycheck
 (global-flycheck-mode t)
-(set-face-attribute 'flycheck-error   nil :foreground "red"    :weight 'bold :underline t :inherit 'unspecified)
-(set-face-attribute 'flycheck-warning nil :foreground "yellow" :weight 'bold :underline t :inherit 'unspecified)
-(set-face-attribute 'flycheck-info    nil :foreground "green"  :weight 'bold :underline t :inherit 'unspecified)
+(set-face-attribute 'flycheck-error   nil :background "red"    :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-warning nil :background "yellow" :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-info    nil :background "green"  :underline 'unspecified :inherit 'unspecified)
 
 
 ; diff-hl
