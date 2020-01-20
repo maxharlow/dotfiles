@@ -43,6 +43,7 @@ alias ls="ls -hF $lscolourflag"
 alias ll='ls -loA'
 alias pd='pushd'
 alias pp='popd'
+alias less='less -R'
 alias tree='tree --dirsfirst -C'
 alias grep='grep --color=auto'
 alias hgrep='history | grep'
