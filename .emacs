@@ -106,7 +106,6 @@
          projectile
          company
          company-shell
-         company-tern
          move-text
          which-key
          undo-tree
@@ -120,10 +119,9 @@
          json-mode
          yaml-mode
          dockerfile-mode
-         cypher-mode
-         tern))
+         cypher-mode))
 
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (defun package-all-installed ()
     (cl-loop for p in package-selected-packages
@@ -170,7 +168,6 @@
 (setq company-tooltip-align-annotations t)
 (setq company-dabbrev-downcase nil)
 (add-to-list 'company-backends 'company-shell)
-(add-to-list 'company-backends 'company-tern)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 (set-face-attribute 'company-tooltip            nil :foreground "black"       :background "white")
 (set-face-attribute 'company-tooltip-selection  nil :foreground "white"       :background "brightblue")
@@ -230,9 +227,3 @@
 (indent-guide-global-mode t)
 (setq indent-guide-char "∙")
 (set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
-
-
-; tern
-(add-hook 'js-mode-hook 'tern-mode)
-(add-hook 'tern-mode-hook
-    (lambda () (setq tern-command (append tern-command '("--no-port-file")))))
