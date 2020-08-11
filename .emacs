@@ -101,8 +101,9 @@
 (require 'package)
 (setq package-selected-packages
     '(
-         ivy
-         counsel
+         orderless
+         selectrum
+         ctrlf
          projectile
          company
          company-shell
@@ -114,6 +115,7 @@
          diff-hl
          idle-highlight-mode
          indent-guide
+         lsp-mode
          markdown-mode
          csv-mode
          json-mode
@@ -133,48 +135,59 @@
     (package-install-selected-packages))
 
 
-; ivy
-(ivy-mode t)
-(setq ivy-use-selectable-prompt t)
-(global-set-key (kbd "C-r") 'ivy-resume)
-(set-face-attribute 'ivy-current-match           nil :foreground 'unspecified :background "brightblue"  :weight 'unspecified)
-(set-face-attribute 'ivy-minibuffer-match-face-1 nil :foreground 'unspecified :background 'unspecified  :weight 'unspecified)
-(set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
-(set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
-(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white"      :background "brightcyan"  :weight 'unspecified)
+; orderless
+(require 'orderless)
+(setq completion-styles '(orderless))
 
 
-; swiper
-(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(require 'swiper)
-(set-face-attribute 'swiper-match-face-1 nil :inherit 'ivy-minibuffer-match-face-1)
-(set-face-attribute 'swiper-match-face-2 nil :inherit 'ivy-minibuffer-match-face-2)
-(set-face-attribute 'swiper-match-face-3 nil :inherit 'ivy-minibuffer-match-face-3)
-(set-face-attribute 'swiper-match-face-4 nil :inherit 'ivy-minibuffer-match-face-4)
+; selectrum
+(require 'selectrum)
+(setq selectrum-refine-candidates-function 'orderless-filter)
+(setq selectrum-highlight-candidates-function 'orderless-highlight-matches)
+(selectrum-mode t)
+
+
+; ctrlf
+(ctrlf-mode t)
 
 
 ; projectile
-(setq projectile-completion-system 'ivy)
+(setq projectile-completion-system 'default)
 (setq projectile-keymap-prefix (kbd "C-j"))
 (projectile-global-mode t)
 (define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-j C-s") (lambda () (interactive) (counsel-ag "" (projectile-project-root))))
+
+(defun projectile-search ()
+    (interactive)
+    (let* ((s (read-string "Search term: "))
+	          (stdout (shell-command-to-string (concat "rg " s)))
+	          (results (split-string stdout "\n"))
+	          (r (completing-read "Result: " results))
+	          (fields (split-string r ":"))
+	          (fn (car fields))
+	          (ln (car (cdr fields))))
+        (find-file fn)
+        (goto-char (point-min))
+        (forward-line (- (string-to-number ln) 1))))
+
+(define-key projectile-mode-map (kbd "C-j C-s") 'projectile-search)
 
 
 ; company
-(global-company-mode t)
 (setq company-idle-delay 0)
 (setq company-tooltip-align-annotations t)
 (setq company-dabbrev-downcase nil)
+(global-company-mode t)
 (add-to-list 'company-backends 'company-shell)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
-(set-face-attribute 'company-tooltip            nil :foreground "black"       :background "white")
-(set-face-attribute 'company-tooltip-selection  nil :foreground "white"       :background "brightblue")
-(set-face-attribute 'company-tooltip-annotation nil :foreground "brightred")
-(set-face-attribute 'company-tooltip-common     nil :foreground "brightblack"                           :underline t)
-(set-face-attribute 'company-scrollbar-bg       nil                           :background "brightblack")
-(set-face-attribute 'company-scrollbar-fg       nil                           :background "brightwhite")
+(set-face-attribute 'company-tooltip                      nil :foreground "black"       :background "white")
+(set-face-attribute 'company-tooltip-selection            nil :foreground "white"       :background "brightblue")
+(set-face-attribute 'company-tooltip-common               nil :foreground "brightblack"                           :underline t)
+(set-face-attribute 'company-tooltip-common-selection     nil :foreground "white")
+(set-face-attribute 'company-tooltip-annotation           nil :foreground "brightred")
+(set-face-attribute 'company-tooltip-annotation-selection nil :foreground "white")
+(set-face-attribute 'company-scrollbar-bg                 nil                           :background "brightblack")
+(set-face-attribute 'company-scrollbar-fg                 nil                           :background "brightwhite")
 
 
 ; which-key
@@ -187,9 +200,9 @@
 
 
 ; undo-tree
-(global-undo-tree-mode t)
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo/"))))
+(global-undo-tree-mode t)
 (set-face-attribute 'undo-tree-visualizer-active-branch-face nil :foreground "white" :weight 'bold)
 (set-face-attribute 'undo-tree-visualizer-default-face       nil :foreground "brightwhite")
 (set-face-attribute 'undo-tree-visualizer-unmodified-face    nil :foreground "cyan")
@@ -224,6 +237,13 @@
 
 
 ; indent-guide
-(indent-guide-global-mode t)
 (setq indent-guide-char "∙")
+(indent-guide-global-mode t)
 (set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
+
+
+; lsp
+(add-hook 'js-mode-hook 'lsp)
+
+
+;
