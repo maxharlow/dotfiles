@@ -23,6 +23,7 @@
 (setq auto-save-timeout 1)
 (setq auto-save-interval 20)
 (setq make-backup-files nil)
+(setq create-lockfiles nil)
 
 
 ; default character encoding
@@ -31,6 +32,10 @@
 
 ; remove scratch buffer
 (kill-buffer "*scratch*")
+
+
+; save customisation separately
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 
 ; layout display
@@ -201,7 +206,7 @@
 
 ; undo-tree
 (setq undo-tree-auto-save-history t)
-(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo/"))))
+(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" user-emacs-directory))))
 (global-undo-tree-mode t)
 (set-face-attribute 'undo-tree-visualizer-active-branch-face nil :foreground "white" :weight 'bold)
 (set-face-attribute 'undo-tree-visualizer-default-face       nil :foreground "brightwhite")
