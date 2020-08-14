@@ -249,6 +249,7 @@
 
 ; lsp
 (add-hook 'js-mode-hook 'lsp)
+(add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
 ;
