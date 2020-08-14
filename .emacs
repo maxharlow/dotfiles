@@ -109,6 +109,7 @@
          orderless
          selectrum
          ctrlf
+         bufler
          projectile
          company
          company-shell
@@ -154,6 +155,10 @@
 
 ; ctrlf
 (ctrlf-mode t)
+
+
+; bufler
+(global-set-key (kbd "C-x b") 'bufler-switch-buffer)
 
 
 ; projectile
