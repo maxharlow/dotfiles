@@ -257,4 +257,8 @@
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
+; markdown
+(add-hook 'markdown-mode-hook '(lambda () (setq truncate-lines nil)))
+
+
 ;
