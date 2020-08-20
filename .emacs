@@ -102,6 +102,10 @@
 (set-face-attribute 'dired-perm-write nil                                                             :inherit 'unspecified)
 
 
+; text editing
+(add-hook 'text-mode-hook '(lambda () (setq truncate-lines nil)))
+
+
 ; packages
 (require 'package)
 (setq package-selected-packages
@@ -255,10 +259,6 @@
 ; lsp
 (add-hook 'js-mode-hook 'lsp)
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
-
-
-; markdown
-(add-hook 'markdown-mode-hook '(lambda () (setq truncate-lines nil)))
 
 
 ;
