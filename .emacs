@@ -168,7 +168,7 @@
 ; projectile
 (setq projectile-completion-system 'default)
 (setq projectile-keymap-prefix (kbd "C-j"))
-(projectile-global-mode t)
+(projectile-mode t)
 (define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
 
 (defun projectile-search ()
