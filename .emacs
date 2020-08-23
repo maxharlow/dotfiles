@@ -113,6 +113,7 @@
          orderless
          selectrum
          ctrlf
+         iflipb
          bufler
          projectile
          company
@@ -159,6 +160,12 @@
 
 ; ctrlf
 (ctrlf-mode t)
+
+
+; iflipb
+(require 'iflipb)
+(global-set-key (kbd "C-x <right>") 'iflipb-next-buffer)
+(global-set-key (kbd "C-x <left>") 'iflipb-previous-buffer)
 
 
 ; bufler
