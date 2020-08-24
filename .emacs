@@ -9,7 +9,7 @@
                                (concat " ∙ " (replace-regexp-in-string "\n" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))))
               (git-dirty   (when (eq (vc-backend (buffer-file-name)) 'Git)
                                (when (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " •")))
-              (left        (format-mode-line (list " " saved project (buffer-name) "  " position)))
+              (left        (format-mode-line (list " " saved project (substring-no-properties (buffer-name)) "  " position)))
               (right       (format-mode-line (list " " coding " ∙ " mode-name git-branch git-dirty " ")))
               (spacer-size (- (window-total-width) (length left) (length right)))
               (spacer      (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
@@ -164,8 +164,11 @@
 
 ; iflipb
 (require 'iflipb)
+(setq iflipb-wrap-around t)
+(setq iflipb-permissive-flip-back t)
 (global-set-key (kbd "C-x <right>") 'iflipb-next-buffer)
 (global-set-key (kbd "C-x <left>") 'iflipb-previous-buffer)
+(global-set-key (kbd "C-x k") 'iflipb-kill-buffer)
 
 
 ; bufler
