@@ -162,8 +162,8 @@
 ; ctrlf
 (require 'ctrlf)
 (ctrlf-mode t)
-(set-face-attribute 'ctrlf-highlight-active nil  :foreground "white" :background "brightmagenta" :inherit 'unspecified)
-(set-face-attribute 'ctrlf-highlight-passive nil :foreground "black" :background "magenta"       :inherit 'unspecified)
+(set-face-attribute 'ctrlf-highlight-active nil  :foreground "white" :background "magenta"       :inherit 'unspecified)
+(set-face-attribute 'ctrlf-highlight-passive nil :foreground "white" :background "brightmagenta" :inherit 'unspecified)
 
 
 ; iflipb
