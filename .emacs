@@ -80,8 +80,8 @@
 
 
 ; syntax highlighting
-(set-face-attribute 'font-lock-keyword-face       nil :foreground "blue")
-(set-face-attribute 'font-lock-builtin-face       nil :foreground "blue")
+(set-face-attribute 'font-lock-keyword-face       nil :foreground "blue"                    :weight 'bold)
+(set-face-attribute 'font-lock-builtin-face       nil :foreground "blue"                    :weight 'bold)
 (set-face-attribute 'font-lock-function-name-face nil :foreground "blue")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "yellow")
 (set-face-attribute 'font-lock-constant-face      nil :foreground "yellow")
@@ -243,9 +243,9 @@
 
 ; flycheck
 (global-flycheck-mode t)
-(set-face-attribute 'flycheck-error   nil :background "red"    :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-warning nil :background "yellow" :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-info    nil :background "green"  :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-error   nil :background "brightred"    :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-warning nil :background "brightyellow" :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-info    nil :background "brightgreen"  :underline 'unspecified :inherit 'unspecified)
 
 
 ; diff-hl
@@ -271,8 +271,10 @@
 
 
 ; lsp
+(require 'lsp)
 (add-hook 'js-mode-hook 'lsp)
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
+(set-face-attribute 'lsp-face-highlight-read nil :foreground "brightmagenta" :background 'unspecified :underline t :inherit 'unspecified)
 
 
 ;
