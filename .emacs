@@ -184,21 +184,7 @@
 (setq projectile-keymap-prefix (kbd "C-j"))
 (projectile-mode t)
 (define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
-
-(defun projectile-search ()
-    (interactive)
-    (let* ((s (read-string "Search term: "))
-	          (stdout (shell-command-to-string (concat "rg " s)))
-	          (results (split-string stdout "\n"))
-	          (r (completing-read "Result: " results))
-	          (fields (split-string r ":"))
-	          (fn (car fields))
-	          (ln (car (cdr fields))))
-        (find-file fn)
-        (goto-char (point-min))
-        (forward-line (- (string-to-number ln) 1))))
-
-(define-key projectile-mode-map (kbd "C-j C-s") 'projectile-search)
+(define-key projectile-mode-map (kbd "C-j C-s") 'projectile-ripgrep)
 
 
 ; company
