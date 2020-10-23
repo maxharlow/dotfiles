@@ -74,7 +74,7 @@
 (set-face-attribute 'minibuffer-prompt        nil :foreground "brightwhite")
 (set-face-attribute 'highlight                nil                             :background "brightblack")
 (set-face-attribute 'region                   nil :foreground "black"         :background "brightblue")
-(set-face-attribute 'show-paren-match         nil :foreground "brightmagenta" :background 'unspecified)
+(set-face-attribute 'show-paren-match         nil :foreground "white"         :background "brightmagenta")
 (set-face-attribute 'show-paren-mismatch      nil :foreground "white"         :background "red"         :inverse-video t)
 (set-face-attribute 'trailing-whitespace      nil :foreground 'unspecified    :background "red")
 
@@ -229,9 +229,9 @@
 
 ; flycheck
 (global-flycheck-mode t)
-(set-face-attribute 'flycheck-error   nil :background "brightred"    :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-warning nil :background "brightyellow" :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-info    nil :background "brightgreen"  :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-error   nil :foreground "white" :background "brightred"    :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-warning nil :foreground "white" :background "brightyellow" :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'flycheck-info    nil :foreground "white" :background "brightgreen"  :underline 'unspecified :inherit 'unspecified)
 
 
 ; diff-hl
