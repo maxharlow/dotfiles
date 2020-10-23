@@ -126,6 +126,7 @@
          flycheck
          diff-hl
          idle-highlight-mode
+         smartscan
          indent-guide
          lsp-mode
          markdown-mode
@@ -209,8 +210,8 @@
 
 
 ; move-text
-(global-set-key (kbd "M-n") 'move-text-down)
-(global-set-key (kbd "M-p") 'move-text-up)
+(global-set-key (kbd "ESC <down>") 'move-text-down)
+(global-set-key (kbd "ESC <up>") 'move-text-up)
 
 
 ; undo-tree
@@ -248,6 +249,10 @@
 (require 'idle-highlight-mode)
 (add-hook 'prog-mode-hook 'idle-highlight-mode)
 (set-face-attribute 'idle-highlight nil :foreground "brightmagenta" :inherit 'unspecified)
+
+
+; smartscan
+(global-smartscan-mode t)
 
 
 ; indent-guide
