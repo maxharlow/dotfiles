@@ -51,7 +51,6 @@
 (column-number-mode t)      ; keep track of what column we're in
 (show-paren-mode t)         ; highlight matching parentheses
 (electric-pair-mode t)      ; automatically pair characters
-(global-subword-mode t)     ; stop point between camelcased words
 (global-auto-revert-mode t) ; automatically reload changed buffers
 (global-hl-line-mode t)     ; highlight current line
 (global-display-line-numbers-mode t)
@@ -119,6 +118,7 @@
          projectile
          company
          company-shell
+         syntax-subword
          move-text
          which-key
          undo-tree
@@ -203,6 +203,12 @@
 (set-face-attribute 'company-tooltip-annotation-selection nil :foreground "white")
 (set-face-attribute 'company-scrollbar-bg                 nil                           :background "brightblack")
 (set-face-attribute 'company-scrollbar-fg                 nil                           :background "brightwhite")
+
+
+; syntax-subword
+(require 'syntax-subword)
+(global-syntax-subword-mode t)
+(setq syntax-subword-skip-spaces t)
 
 
 ; which-key
