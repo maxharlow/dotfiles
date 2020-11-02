@@ -208,7 +208,6 @@
 ; syntax-subword
 (require 'syntax-subword)
 (global-syntax-subword-mode t)
-(setq syntax-subword-skip-spaces t)
 
 
 ; which-key
