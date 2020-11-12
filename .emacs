@@ -181,17 +181,18 @@
 
 
 ; projectile
+(require 'projectile)
 (setq projectile-completion-system 'default)
-(setq projectile-keymap-prefix (kbd "C-j"))
 (projectile-mode t)
+(define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
 (define-key projectile-mode-map (kbd "C-j C-s") 'projectile-ripgrep)
 
 
 ; company
+(require 'company)
 (setq company-idle-delay 0)
 (setq company-tooltip-align-annotations t)
-(setq company-dabbrev-downcase nil)
 (global-company-mode t)
 (add-to-list 'company-backends 'company-shell)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
@@ -220,6 +221,7 @@
 
 
 ; undo-tree
+(require 'undo-tree)
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" user-emacs-directory))))
 (global-undo-tree-mode t)
@@ -241,6 +243,7 @@
 
 
 ; diff-hl
+(require 'diff-hl)
 (global-diff-hl-mode t)
 (diff-hl-margin-mode t)
 (diff-hl-flydiff-mode t)
@@ -261,6 +264,7 @@
 
 
 ; indent-guide
+(require 'indent-guide)
 (setq indent-guide-char "∙")
 (indent-guide-global-mode t)
 (set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
