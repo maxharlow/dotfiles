@@ -117,6 +117,7 @@
          iflipb
          bufler
          projectile
+         ripgrep
          company
          company-shell
          syntax-subword
@@ -186,8 +187,9 @@
 (setq projectile-completion-system 'default)
 (projectile-mode t)
 (define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-j C-f") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-j C-s") 'projectile-ripgrep)
+(define-key projectile-mode-map (kbd "C-j f") 'projectile-find-file)
+(define-key projectile-mode-map (kbd "C-j s") 'projectile-ripgrep)
+(define-key projectile-mode-map (kbd "C-j %") 'projectile-replace-regexp)
 
 
 ; company
@@ -254,7 +256,7 @@
 (set-face-attribute 'diff-hl-change nil :foreground "brightblue"  :background "brightblue")
 
 
-; idle-highlight-mode
+; idle-highlight
 (require 'idle-highlight-mode)
 (add-hook 'prog-mode-hook 'idle-highlight-mode)
 (set-face-attribute 'idle-highlight nil :foreground "brightmagenta" :inherit 'unspecified)
