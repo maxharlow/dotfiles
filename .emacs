@@ -55,6 +55,7 @@
 (global-hl-line-mode t)     ; highlight current line
 (global-display-line-numbers-mode t)
 (setq uniquify-buffer-name-style 'forward)
+(setq tab-always-indent 'complete)
 
 
 ; shortcuts
@@ -105,6 +106,10 @@
 
 ; text editing
 (add-hook 'text-mode-hook '(lambda () (setq truncate-lines nil)))
+
+
+; javascript editing
+(add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
 ; packages
@@ -195,9 +200,11 @@
 ; company
 (require 'company)
 (setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
 (setq company-tooltip-align-annotations t)
 (global-company-mode t)
 (add-to-list 'company-backends 'company-shell)
+(define-key company-mode-map (kbd "TAB") 'company-indent-or-complete-common)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 (set-face-attribute 'company-tooltip                      nil :foreground "black"       :background "white")
 (set-face-attribute 'company-tooltip-selection            nil :foreground "white"       :background "brightblue")
@@ -275,8 +282,8 @@
 
 ; lsp
 (require 'lsp)
-(add-hook 'js-mode-hook 'lsp)
-(add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
+(setq lsp-enable-file-watchers nil)
+(add-hook 'prog-mode-hook 'lsp)
 (set-face-attribute 'lsp-face-highlight-read nil :foreground "brightmagenta" :background 'unspecified :underline t :inherit 'unspecified)
 
 
