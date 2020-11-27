@@ -19,6 +19,11 @@
 (setq-default mode-line-format '(:eval (mode-line)))
 
 
+; memory tweaks (for lsp)
+(setq gc-cons-threshold 100000000) ; ~100MB
+(setq read-process-output-max (* 1024 1024)) ; 1MB
+
+
 ; why backup when we can autosave
 (auto-save-visited-mode t)
 (setq auto-save-timeout 1)
