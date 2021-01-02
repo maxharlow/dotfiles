@@ -123,6 +123,7 @@
     '(
          orderless
          selectrum
+         marginalia
          ctrlf
          iflipb
          bufler
@@ -170,6 +171,14 @@
 (setq selectrum-refine-candidates-function 'orderless-filter)
 (setq selectrum-highlight-candidates-function 'orderless-highlight-matches)
 (selectrum-mode t)
+(set-face-attribute 'selectrum-current-candidate     nil :foreground "black"  :background "white" :inherit 'unspecified)
+(set-face-attribute 'selectrum-completion-annotation nil                                          :inherit 'unspecified)
+
+
+; marginalia
+(require 'marginalia)
+(setq marginalia-annotators '(marginalia-annotators-heavy))
+(marginalia-mode t)
 
 
 ; ctrlf
