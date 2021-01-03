@@ -110,7 +110,8 @@
 
 
 ; text editing
-(add-hook 'text-mode-hook '(lambda () (setq truncate-lines nil)))
+(add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
+(add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
 
 
 ; javascript editing
