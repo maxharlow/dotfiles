@@ -127,9 +127,10 @@
          marginalia
          ctrlf
          iflipb
-         bufler
          projectile
          ripgrep
+         consult
+         consult-selectrum
          company
          company-shell
          syntax-subword
@@ -198,18 +199,23 @@
 (global-set-key (kbd "C-x k") 'iflipb-kill-buffer)
 
 
-; bufler
-(global-set-key (kbd "C-x b") 'bufler-switch-buffer)
-
-
 ; projectile
 (require 'projectile)
 (setq projectile-completion-system 'default)
 (projectile-mode t)
 (define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-j f") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-j s") 'projectile-ripgrep)
 (define-key projectile-mode-map (kbd "C-j %") 'projectile-replace-regexp)
+(define-key projectile-mode-map (kbd "C-j s") 'consult-ripgrep)
+
+
+; consult
+(require 'consult)
+(setq consult-async-min-input 1)
+(setq consult-project-root-function #'projectile-project-root)
+(global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key (kbd "M-g M-g") 'consult-goto-line)
+(consult-preview-mode)
 
 
 ; company
