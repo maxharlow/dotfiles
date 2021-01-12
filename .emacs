@@ -115,7 +115,7 @@
 
 
 ; javascript editing
-; note lsp requires: mkdir -p ~/.emacs.d/.cache/lsp/npm/{typescript/lib,typescript-language-server}
+; note lsp requires: mkdir -p ~/.emacs.d/.cache/lsp/npm/{typescript,typescript-language-server}/lib
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
