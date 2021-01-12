@@ -115,6 +115,7 @@
 
 
 ; javascript editing
+; note lsp requires: mkdir -p ~/.emacs.d/.cache/lsp/npm/{typescript/lib,typescript-language-server}
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
@@ -128,7 +129,6 @@
          ctrlf
          iflipb
          projectile
-         ripgrep
          consult
          consult-selectrum
          company
@@ -173,8 +173,8 @@
 (setq selectrum-refine-candidates-function 'orderless-filter)
 (setq selectrum-highlight-candidates-function 'orderless-highlight-matches)
 (selectrum-mode t)
-(set-face-attribute 'selectrum-current-candidate     nil :foreground "black"  :background "white" :inherit 'unspecified)
-(set-face-attribute 'selectrum-completion-annotation nil                                          :inherit 'unspecified)
+(set-face-attribute 'selectrum-current-candidate     nil :foreground "black" :background "white" :inherit 'unspecified)
+(set-face-attribute 'selectrum-completion-annotation nil                                         :inherit 'unspecified)
 
 
 ; marginalia
@@ -215,7 +215,6 @@
 (setq consult-project-root-function #'projectile-project-root)
 (global-set-key (kbd "C-x b") 'consult-buffer)
 (global-set-key (kbd "M-g M-g") 'consult-goto-line)
-(consult-preview-mode)
 
 
 ; company
