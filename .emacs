@@ -214,6 +214,7 @@
 (setq consult-async-min-input 1)
 (setq consult-project-root-function #'projectile-project-root)
 (global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key (kbd "M-y") 'consult-yank-pop)
 (global-set-key (kbd "M-g M-g") 'consult-goto-line)
 
 
