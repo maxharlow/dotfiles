@@ -185,9 +185,9 @@
 
 ; ctrlf
 (require 'ctrlf)
-(ctrlf-mode t)
 (set-face-attribute 'ctrlf-highlight-active nil  :foreground "black" :background "white"         :inherit 'unspecified)
 (set-face-attribute 'ctrlf-highlight-passive nil :foreground "white" :background "brightmagenta" :inherit 'unspecified)
+(ctrlf-mode t)
 
 
 ; iflipb
@@ -202,11 +202,11 @@
 ; projectile
 (require 'projectile)
 (setq projectile-completion-system 'default)
-(projectile-mode t)
 (define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-j f") 'projectile-find-file)
 (define-key projectile-mode-map (kbd "C-j %") 'projectile-replace-regexp)
 (define-key projectile-mode-map (kbd "C-j s") 'consult-ripgrep)
+(projectile-mode t)
 
 
 ; consult
@@ -223,7 +223,6 @@
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 2)
 (setq company-tooltip-align-annotations t)
-(global-company-mode t)
 (add-to-list 'company-backends 'company-shell)
 (define-key company-mode-map (kbd "TAB") 'company-indent-or-complete-common)
 (define-key company-active-map (kbd "TAB") 'company-complete-selection)
@@ -235,6 +234,7 @@
 (set-face-attribute 'company-tooltip-annotation-selection nil :foreground "white")
 (set-face-attribute 'company-scrollbar-bg                 nil                           :background "brightblack")
 (set-face-attribute 'company-scrollbar-fg                 nil                           :background "brightwhite")
+(global-company-mode t)
 
 
 ; syntax-subword
@@ -255,11 +255,11 @@
 (require 'undo-tree)
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" user-emacs-directory))))
-(global-undo-tree-mode t)
 (set-face-attribute 'undo-tree-visualizer-active-branch-face nil :foreground "white" :weight 'bold)
 (set-face-attribute 'undo-tree-visualizer-default-face       nil :foreground "brightwhite")
 (set-face-attribute 'undo-tree-visualizer-unmodified-face    nil :foreground "cyan")
 (set-face-attribute 'undo-tree-visualizer-current-face       nil :foreground "red")
+(global-undo-tree-mode t)
 
 
 ; editorconfig
@@ -267,27 +267,28 @@
 
 
 ; flycheck
-(global-flycheck-mode t)
+(require 'flycheck)
 (set-face-attribute 'flycheck-error   nil :foreground "white" :background "brightred"    :underline 'unspecified :inherit 'unspecified)
 (set-face-attribute 'flycheck-warning nil :foreground "white" :background "brightyellow" :underline 'unspecified :inherit 'unspecified)
 (set-face-attribute 'flycheck-info    nil :foreground "white" :background "brightgreen"  :underline 'unspecified :inherit 'unspecified)
+(global-flycheck-mode t)
 
 
 ; diff-hl
 (require 'diff-hl)
-(global-diff-hl-mode t)
-(diff-hl-margin-mode t)
-(diff-hl-flydiff-mode t)
 (setq diff-hl-side 'right)
 (set-face-attribute 'diff-hl-insert nil :foreground "brightgreen" :background "brightgreen" :inherit 'unspecified)
 (set-face-attribute 'diff-hl-delete nil :foreground "brightred"   :background "brightred"   :inherit 'unspecified)
 (set-face-attribute 'diff-hl-change nil :foreground "brightblue"  :background "brightblue")
+(global-diff-hl-mode t)
+(diff-hl-margin-mode t)
+(diff-hl-flydiff-mode t)
 
 
 ; idle-highlight
 (require 'idle-highlight-mode)
-(add-hook 'prog-mode-hook 'idle-highlight-mode)
 (set-face-attribute 'idle-highlight nil :foreground "brightmagenta" :inherit 'unspecified)
+(add-hook 'prog-mode-hook 'idle-highlight-mode)
 
 
 ; smartscan
@@ -297,15 +298,15 @@
 ; indent-guide
 (require 'indent-guide)
 (setq indent-guide-char "∙")
-(indent-guide-global-mode t)
 (set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
+(indent-guide-global-mode t)
 
 
 ; lsp
 (require 'lsp)
 (setq lsp-enable-file-watchers nil)
-(add-hook 'prog-mode-hook 'lsp)
 (set-face-attribute 'lsp-face-highlight-read nil :foreground "brightmagenta" :background 'unspecified :underline t :inherit 'unspecified)
+(add-hook 'prog-mode-hook 'lsp)
 
 
 ;
