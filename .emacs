@@ -148,6 +148,7 @@
          csv-mode
          json-mode
          yaml-mode
+         dotenv-mode
          dockerfile-mode
          cypher-mode))
 
