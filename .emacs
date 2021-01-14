@@ -74,15 +74,16 @@
 
 
 ; colourscheme
-(set-face-attribute 'mode-line                nil :foreground "black"         :background "brightwhite" :inverse-video 'unspecified)
+(set-face-attribute 'mode-line                nil :foreground "black"         :background "brightwhite"                            :inverse-video 'unspecified)
+(set-face-attribute 'header-line              nil :foreground "black"         :background "brightwhite"   :underline 'unspecified                              :inherit 'unspecified)
 (set-face-attribute 'line-number              nil :foreground "brightwhite"   :background "brightblack")
 (set-face-attribute 'line-number-current-line nil :foreground "white"         :background "brightblack")
 (set-face-attribute 'minibuffer-prompt        nil :foreground "brightwhite")
 (set-face-attribute 'highlight                nil                             :background "brightblack")
 (set-face-attribute 'region                   nil :foreground "black"         :background "brightblue")
 (set-face-attribute 'show-paren-match         nil :foreground "white"         :background "brightmagenta")
-(set-face-attribute 'show-paren-mismatch      nil :foreground "white"         :background "red"         :inverse-video t)
-(set-face-attribute 'trailing-whitespace      nil :foreground 'unspecified    :background "red")
+(set-face-attribute 'show-paren-mismatch      nil :foreground "white"         :background "red"                                    :inverse-video t)
+(set-face-attribute 'trailing-whitespace      nil                             :background "red")
 
 
 ; syntax highlighting
@@ -308,6 +309,13 @@
 (setq lsp-enable-file-watchers nil)
 (set-face-attribute 'lsp-face-highlight-read nil :foreground "brightmagenta" :background 'unspecified :underline t :inherit 'unspecified)
 (add-hook 'prog-mode-hook 'lsp)
+
+
+; lsp-headerline
+(require 'lsp-headerline)
+(set-face-attribute 'lsp-headerline-breadcrumb-path-face      nil :foreground "black"               :inherit 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-face   nil                     :weight 'bold :inherit 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-separator-face nil                                   :inherit 'unspecified)
 
 
 ;
