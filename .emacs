@@ -2,7 +2,7 @@
 (defun mode-line ()
     (let* (
               (saved       (if (buffer-modified-p) "• " (if buffer-read-only "× ")))
-              (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " ❯ ")))
+              (project     (and (bound-and-true-p projectile-mode) (projectile-project-p) (concat (projectile-project-name) " → ")))
               (buffer      (substring-no-properties (buffer-name)))
               (position    mode-line-position)
               (coding      (upcase (symbol-name buffer-file-coding-system)))
@@ -313,6 +313,7 @@
 
 ; lsp-headerline
 (require 'lsp-headerline)
+(setq lsp-headerline-arrow "→")
 (set-face-attribute 'lsp-headerline-breadcrumb-path-face      nil :foreground "black"               :inherit 'unspecified)
 (set-face-attribute 'lsp-headerline-breadcrumb-symbols-face   nil                     :weight 'bold :inherit 'unspecified)
 (set-face-attribute 'lsp-headerline-breadcrumb-separator-face nil                                   :inherit 'unspecified)
