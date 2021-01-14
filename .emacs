@@ -131,7 +131,6 @@
          iflipb
          projectile
          consult
-         consult-selectrum
          company
          company-shell
          syntax-subword
