@@ -313,9 +313,17 @@
 ; lsp-headerline
 (require 'lsp-headerline)
 (setq lsp-headerline-arrow "→")
-(set-face-attribute 'lsp-headerline-breadcrumb-path-face      nil :foreground "black"               :inherit 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-face   nil                     :weight 'bold :inherit 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-separator-face nil                                   :inherit 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-path-face            nil :foreground "black")
+(set-face-attribute 'lsp-headerline-breadcrumb-path-error-face      nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-path-warning-face    nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-path-hint-face       nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-path-info-face       nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-face         nil                                             :inherit 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-error-face   nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-warning-face nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-hint-face    nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-symbols-info-face    nil                     :underline 'unspecified)
+(set-face-attribute 'lsp-headerline-breadcrumb-separator-face       nil                                             :inherit 'unspecified)
 
 
 ;
