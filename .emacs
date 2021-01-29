@@ -173,9 +173,10 @@
 (require 'selectrum)
 (setq selectrum-refine-candidates-function 'orderless-filter)
 (setq selectrum-highlight-candidates-function 'orderless-highlight-matches)
-(selectrum-mode t)
+(global-set-key (kbd "C-x C-z") 'selectrum-repeat)
 (set-face-attribute 'selectrum-current-candidate     nil :foreground "black" :background "white" :inherit 'unspecified)
 (set-face-attribute 'selectrum-completion-annotation nil                                         :inherit 'unspecified)
+(selectrum-mode t)
 
 
 ; marginalia
