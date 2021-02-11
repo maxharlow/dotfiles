@@ -94,13 +94,6 @@ function git-state {
 	echo "($branch)$dirty"
 }
 
-function docker-state {
-    if [ -z "$DOCKER_MACHINE_NAME" ]
-        then return 0
-    fi
-    echo "[$DOCKER_MACHINE_NAME]"
-}
-
 
 # prompt
 reg=$(tput sgr 0) # regular
@@ -128,7 +121,7 @@ bw=$reg$(tput setaf 15) # bright white
 title='\[\e]0;'
 endtitle=$(tput bel)'\]'
 
-PS1="\n$bk$bld\t $b\h$bk:$g\w $y$bld\$(git-state) $c$bld\$(docker-state)$reg\n\$ "
+PS1="\n$bk$bld\t $b\h$bk:$g\w $y$bld\$(git-state)$reg\n\$ "
 PS1+="$title\W$endtitle"
 
 
