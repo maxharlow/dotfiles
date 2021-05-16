@@ -119,7 +119,6 @@
 
 
 ; javascript editing
-; note lsp requires: mkdir -p ~/.emacs.d/.cache/lsp/npm/{typescript,typescript-language-server}/lib
 (add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
 
 
@@ -179,12 +178,12 @@
 (global-set-key (kbd "C-x C-z") 'selectrum-repeat)
 (set-face-attribute 'selectrum-current-candidate     nil :foreground "black" :background "white" :inherit 'unspecified)
 (set-face-attribute 'selectrum-completion-annotation nil                                         :inherit 'unspecified)
+(set-face-attribute 'completions-annotations         nil                                         :inherit 'unspecified) ; shouldn't be necessary, should use above (bug?)
 (selectrum-mode t)
 
 
 ; marginalia
 (require 'marginalia)
-(setq marginalia-annotators '(marginalia-annotators-heavy))
 (marginalia-mode t)
 
 
