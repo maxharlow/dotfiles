@@ -205,7 +205,6 @@
 
 ; projectile
 (require 'projectile)
-(setq projectile-completion-system 'default)
 (define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-j f") 'projectile-find-file)
 (define-key projectile-mode-map (kbd "C-j %") 'projectile-replace-regexp)
