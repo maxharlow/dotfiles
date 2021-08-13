@@ -308,7 +308,8 @@
 ; lsp
 (require 'lsp)
 (setq lsp-enable-file-watchers nil)
-(set-face-attribute 'lsp-face-highlight-read nil :foreground "brightmagenta" :background 'unspecified :underline t :inherit 'unspecified)
+(set-face-attribute 'lsp-face-highlight-read    nil :foreground "brightmagenta" :background 'unspecified    :underline t :inherit 'unspecified)
+(set-face-attribute 'lsp-face-highlight-textual nil :foreground "white"         :background "brightmagenta"              :inherit 'unspecified)
 (add-hook 'prog-mode-hook 'lsp)
 
 
