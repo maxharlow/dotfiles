@@ -1,0 +1,12 @@
+[user]
+	name = Max Harlow
+	useConfigOnly = true
+
+[init]
+	defaultBranch = main
+
+[fetch]
+	prune = true
+
+[diff]
+	external = difft
