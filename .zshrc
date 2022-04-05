@@ -7,7 +7,7 @@ setopt NOCLOBBER # don't overwrite existing files
 export LESS_TERMCAP_md=$(tput bold) # bold
 export LESS_TERMCAP_us=$(tput smul) # underlined
 export LESS_TERMCAP_ue=$(tput rmul) # end underlined
-export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 1) # standout (bold yellow on red)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 0; tput setab 6) # standout (bold black on cyan)
 export LESS_TERMCAP_se=$(tput sgr 0) # end standout
 
 export LS_COLORS='di=32:ln=35:so=34:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
@@ -23,14 +23,27 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_DUPS
 
 
-# keyboard movement
+# general keys
+bindkey -e
+bindkey '^q' push-line # stash current command and come back to it after
+
+
+# move by word
 autoload -U select-word-style
 select-word-style bash # only alphanumerics are words
-bindkey -e
 bindkey '[C' forward-word
 bindkey '[D' backward-word
+
+
+# incremental search
 bindkey '^[[A' history-beginning-search-backward
 bindkey '^[[B' history-beginning-search-forward
+
+
+# edit commands
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
 
 
 # aliases
@@ -60,7 +73,7 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '•'
 zstyle ':vcs_info:*' stagedstr '*'
-zstyle ':vcs_info:git*' formats '(%b)%u'
+zstyle ':vcs_info:git*' formats ' (%b)%u'
 
 precmd() {
     vcs_info
@@ -68,5 +81,5 @@ precmd() {
 }
 
 PROMPT='
-%B%*%b %F{green}%~%f %B%F{yellow}${vcs_info_msg_0_}%f%b %(0?..%(130?..%F{blue}{%?}%f))
+%B%*%b %F{green}%~%f%B%F{yellow}${vcs_info_msg_0_}%f%b%(0?..%(130?.. %F{blue}{%?}%f))
 $ '
