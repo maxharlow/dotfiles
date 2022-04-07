@@ -1,11 +1,11 @@
 ; mode-line format
 (defun mode-line ()
     (let* (
-              (project     (if (projectile-project-p)
-                               (concat (projectile-project-name) " │ ")))
-              (buffer      (if (projectile-project-p)
-                               (file-relative-name (buffer-name) (projectile-project-root))
-                               (substring-no-properties (buffer-name))))
+              (project     (if (project-current)
+                               (concat (file-name-nondirectory (directory-file-name (project-root (project-current)))) " → ")))
+              (buffer      (if (project-current)
+                               (file-relative-name (buffer-name) (project-root (project-current)))
+                               (buffer-name)))
               (saved       (if (buffer-modified-p) " •" (if buffer-read-only " ×")))
               (position    mode-line-position)
               (coding      (upcase (symbol-name buffer-file-coding-system)))
@@ -74,6 +74,13 @@
 (global-set-key (kbd "M-3")   (lambda () (interactive) (insert "#")))
 (global-set-key (kbd "M-;")   'comment-line)
 (global-set-key (kbd "M-%")   'query-replace-regexp)
+
+
+; projects
+(global-unset-key (kbd "C-j"))
+(global-set-key (kbd "C-j f") 'project-find-file)
+(global-set-key (kbd "C-j %") 'project-query-replace-regexp)
+(global-set-key (kbd "C-j s") 'consult-ripgrep)
 
 
 ; colourscheme
@@ -203,19 +210,9 @@
 (global-set-key (kbd "C-x k") 'iflipb-kill-buffer)
 
 
-; projectile
-(require 'projectile)
-(define-key projectile-mode-map (kbd "C-j") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-j f") 'projectile-find-file)
-(define-key projectile-mode-map (kbd "C-j %") 'projectile-replace-regexp)
-(define-key projectile-mode-map (kbd "C-j s") 'consult-ripgrep)
-(projectile-mode t)
-
-
 ; consult
 (require 'consult)
 (setq consult-async-min-input 1)
-(setq consult-project-root-function #'projectile-project-root)
 (global-set-key (kbd "C-x b") 'consult-buffer)
 (global-set-key (kbd "M-y") 'consult-yank-pop)
 (global-set-key (kbd "M-g M-g") 'consult-goto-line)
