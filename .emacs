@@ -33,6 +33,7 @@
 (setq auto-save-interval 20)
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
+(setq kill-buffer-delete-auto-save-files t)
 
 
 ; default character encoding
