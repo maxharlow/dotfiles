@@ -1,27 +1,3 @@
-; mode-line format
-(defun mode-line ()
-    (let* (
-              (project     (if (project-current)
-                               (concat (file-name-nondirectory (directory-file-name (project-root (project-current)))) " → ")))
-              (buffer      (if (project-current)
-                               (file-relative-name (buffer-name) (project-root (project-current)))
-                               (buffer-name)))
-              (saved       (if (buffer-modified-p) " •" (if buffer-read-only " ×")))
-              (position    mode-line-position)
-              (coding      (upcase (symbol-name buffer-file-coding-system)))
-              (git-branch  (if (eq (vc-backend (buffer-file-name)) 'Git)
-                               (concat " │ " (replace-regexp-in-string "\n" "" (vc-git--run-command-string nil "rev-parse" "--abbrev-ref" "HEAD")))))
-              (git-dirty   (if (eq (vc-backend (buffer-file-name)) 'Git)
-                               (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " •")))
-              (left        (format-mode-line (list " " project buffer saved " │ " position)))
-              (right       (format-mode-line (list " " coding " │ " mode-name git-branch git-dirty " ")))
-              (spacer-size (- (window-total-width) (length left) (length right)))
-              (spacer      (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
-        (concat left spacer right)))
-
-(setq-default mode-line-format '(:eval (mode-line)))
-
-
 ; memory tweaks (for lsp)
 (setq gc-cons-threshold 100000000) ; ~100MB
 (setq read-process-output-max (* 1024 1024)) ; 1MB
@@ -78,10 +54,40 @@
 
 
 ; projects
+(require 'project)
 (global-unset-key (kbd "C-j"))
 (global-set-key (kbd "C-j f") 'project-find-file)
 (global-set-key (kbd "C-j %") 'project-query-replace-regexp)
 (global-set-key (kbd "C-j s") 'consult-ripgrep)
+
+
+; mode-line format
+(defun mode-line ()
+    (let* (
+              (project      (if (project-current)
+                                (concat (file-name-nondirectory (directory-file-name (project-root (project-current)))) " → ")))
+              (buffer       (if (project-current)
+                                (file-relative-name (buffer-name) (project-root (project-current)))
+                                (substring-no-properties (buffer-name))))
+              (saved        (if (buffer-modified-p) " •" (if buffer-read-only " ×")))
+              (position     mode-line-position)
+              (coding       (upcase (symbol-name buffer-file-coding-system)))
+              (mode         mode-name)
+              (git-branch   (if (eq (vc-backend (buffer-file-name)) 'Git)
+                                (concat " │ " (car (vc-git-branches)))))
+              (git-staged   (if (eq (vc-backend (buffer-file-name)) 'Git)
+                                (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) "*")))
+              (git-unstaged   (if (eq (vc-backend (buffer-file-name)) 'Git)
+                                (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) "•")))
+              (git-stage    (if (or git-staged git-unstaged)
+                                (concat " " git-staged git-unstaged)))
+              (left         (format-mode-line (list " " project buffer saved " │ " position)))
+              (right        (format-mode-line (list " " coding " │ " mode git-stage " ")))
+              (spacer-size  (- (window-total-width) (length left) (length right)))
+              (spacer       (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
+        (concat left spacer right)))
+
+(setq-default mode-line-format '(:eval (mode-line)))
 
 
 ; colourscheme
