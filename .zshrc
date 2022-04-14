@@ -76,8 +76,8 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '•'
 zstyle ':vcs_info:*' stagedstr   '*'
-zstyle ':vcs_info:git:*' formats       ' (%b)%u%c'
-zstyle ':vcs_info:git:*' actionformats ' (%b)%u%c [%a]'
+zstyle ':vcs_info:git:*' formats       ' (%b)%c%u'
+zstyle ':vcs_info:git:*' actionformats ' (%b)%c%u [%a]'
 
 precmd() {
     vcs_info
