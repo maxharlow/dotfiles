@@ -1,6 +1,7 @@
 # general
 export EDITOR=emacs
 setopt NOCLOBBER # don't overwrite existing files
+disable r
 
 
 # colours
