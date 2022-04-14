@@ -54,7 +54,9 @@ alias tree='tree --dirsfirst -C'
 alias grep='grep --color=auto'
 alias home-git="git --git-dir=$HOME/.dotfiles.git --work-tree=$HOME"
 alias e='emacs'
-
+alias as-json="jq -C . | less -S"
+alias as-html="pup -c | less -S"
+alias as-csv="csview | less -S"
 
 # completion
 export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
