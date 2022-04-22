@@ -59,6 +59,7 @@ alias as-json="jq -C . | less -S"
 alias as-html="pup -c | less -S"
 alias as-csv="csview | less -S"
 
+
 # completion
 export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 autoload -Uz compinit
