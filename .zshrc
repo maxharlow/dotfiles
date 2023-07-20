@@ -23,6 +23,10 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_DUPS
 
+hgrep () {
+    fc -Dlim "*$@*" 1
+}
+
 
 # general keys
 bindkey -e
