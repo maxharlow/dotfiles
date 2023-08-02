@@ -9,4 +9,5 @@
 	prune = true
 
 [diff]
-	external = difft --display=inline
+    algorithm = histogram
+    colorMoved = plain
