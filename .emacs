@@ -1,8 +1,3 @@
-; memory tweaks (for lsp)
-(setq gc-cons-threshold 100000000) ; ~100MB
-(setq read-process-output-max (* 1024 1024)) ; 1MB
-
-
 ; why backup when we can autosave
 (auto-save-visited-mode t)
 (setq auto-save-timeout 1)
@@ -24,41 +19,42 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 
-; layout display
+; truncate and tidy long lines
 (set-display-table-slot standard-display-table 'vertical-border ?│)
 (set-display-table-slot standard-display-table 'wrap ? )
 (set-display-table-slot standard-display-table 'truncation ?…)
 (setq-default truncate-lines t)
 
 
-; builtin modes
-(menu-bar-mode -1)          ; no menubar
-(column-number-mode t)      ; keep track of what column we're in
-(show-paren-mode t)         ; highlight matching parentheses
-(electric-pair-mode t)      ; automatically pair characters
-(global-auto-revert-mode t) ; automatically reload changed buffers
-(global-hl-line-mode t)     ; highlight current line
+; text editing
+(add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
+(add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
+
+
+; no menubar
+(menu-bar-mode -1)
+
+
+; keeping track of where we are
+(column-number-mode t)
+(global-hl-line-mode t)
 (global-display-line-numbers-mode t)
+
+
+; automatically pair characters
+(electric-pair-mode t)
+
+
+; automatically reload changed buffers
+(global-auto-revert-mode t)
+
+
+; distinguish between buffers with the same file name
 (setq uniquify-buffer-name-style 'forward)
+
+
+; tab key should indent on first press, complete on second
 (setq tab-always-indent 'complete)
-
-
-; shortcuts
-(global-set-key (kbd "C-M-n") 'scroll-up-line)
-(global-set-key (kbd "C-M-p") 'scroll-down-line)
-(global-set-key (kbd "C-n")   (lambda () (interactive) (forward-line  5)))
-(global-set-key (kbd "C-p")   (lambda () (interactive) (forward-line -5)))
-(global-set-key (kbd "M-3")   (lambda () (interactive) (insert "#")))
-(global-set-key (kbd "M-;")   'comment-line)
-(global-set-key (kbd "M-%")   'query-replace-regexp)
-
-
-; projects
-(require 'project)
-(global-unset-key (kbd "C-j"))
-(global-set-key (kbd "C-j f") 'project-find-file)
-(global-set-key (kbd "C-j %") 'project-query-replace-regexp)
-(global-set-key (kbd "C-j s") 'consult-ripgrep)
 
 
 ; mode-line format
@@ -115,222 +111,293 @@
 (set-face-attribute 'font-lock-warning-face       nil :foreground "white" :background "red" :weight 'bold :inherit 'unspecified)
 
 
+; shortcuts
+(global-set-key (kbd "C-M-n") 'scroll-up-line)
+(global-set-key (kbd "C-M-p") 'scroll-down-line)
+(global-set-key (kbd "C-n")   (lambda () (interactive) (forward-line  5)))
+(global-set-key (kbd "C-p")   (lambda () (interactive) (forward-line -5)))
+(global-set-key (kbd "M-3")   (lambda () (interactive) (insert "#")))
+(global-set-key (kbd "M-;")   'comment-line)
+(global-set-key (kbd "M-%")   'query-replace-regexp)
+
+
+; package
+(use-package package
+    :config
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+)
+
+
+; project
+(global-unset-key (kbd "C-j"))
+(use-package project
+    :bind
+    ("C-j C-b" . project-list-buffers)
+    ("C-j C-f" . project-find-file)
+    ("C-j C-%" . project-query-replace-regexp)
+)
+
+
+; treesit-auto
+(use-package treesit-auto
+    :ensure t
+
+    :config
+    (global-treesit-auto-mode)
+    (setq treesit-auto-install 'prompt)
+)
+
+
+; eglot
+(use-package eglot
+    :hook
+    (prog-mode . eglot-ensure)
+)
+
+
+; language modes
+(use-package markdown-mode
+    :ensure t
+)
+(use-package csv-mode
+    :ensure t
+)
+(use-package json-mode
+    :ensure t
+)
+(use-package yaml-mode
+    :ensure t
+)
+(use-package dotenv-mode
+    :ensure t
+)
+
+
 ; dired
-(require 'dired)
-(setq dired-listing-switches "-lohaF")
-(set-face-attribute 'dired-header     nil :foreground "brightwhite"                                   :inherit 'unspecified)
-(set-face-attribute 'dired-directory  nil :foreground "green"                                         :inherit 'unspecified)
-(set-face-attribute 'dired-symlink    nil :foreground "magenta"                                       :inherit 'unspecified)
-(set-face-attribute 'dired-mark       nil :foreground "black"       :background "white" :weight 'bold :inherit 'unspecified)
-(set-face-attribute 'dired-marked     nil :foreground "yellow"                          :weight 'bold :inherit 'unspecified)
-(set-face-attribute 'dired-flagged    nil :foreground "red"                             :weight 'bold :inherit 'unspecified)
-(set-face-attribute 'dired-perm-write nil                                                             :inherit 'unspecified)
+(use-package dired
+    :config
+    (setq dired-listing-switches "-lohaF")
 
-
-; text editing
-(add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
-(add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
-
-
-; javascript editing
-(add-hook 'js-mode-hook (lambda () (define-key js-mode-map (kbd "M-.") 'lsp-find-definition)))
-
-
-; packages
-(require 'package)
-(setq package-selected-packages
-    '(
-         orderless
-         selectrum
-         marginalia
-         ctrlf
-         iflipb
-         projectile
-         consult
-         company
-         company-shell
-         syntax-subword
-         move-text
-         which-key
-         undo-tree
-         editorconfig
-         flycheck
-         diff-hl
-         idle-highlight-mode
-         smartscan
-         indent-guide
-         lsp-mode
-         markdown-mode
-         csv-mode
-         json-mode
-         yaml-mode
-         dotenv-mode
-         dockerfile-mode
-         cypher-mode))
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-(defun package-all-installed ()
-    (cl-loop for p in package-selected-packages
-        when (not (package-installed-p p)) return nil
-        finally return t))
-
-(unless (package-all-installed)
-    (package-refresh-contents)
-    (package-install-selected-packages))
+    :custom-face
+    (dired-header     ((t (:foreground "brightwhite"                                  :inherit 'unspecified))))
+    (dired-directory  ((t (:foreground "green"                                        :inherit 'unspecified))))
+    (dired-symlink    ((t (:foreground "magenta"                                      :inherit 'unspecified))))
+    (dired-mark       ((t (:foreground "black"       :background "white" :weight bold :inherit 'unspecified))))
+    (dired-marked     ((t (:foreground "yellow"                          :weight bold :inherit 'unspecified))))
+    (dired-flagged    ((t (:foreground "red"                             :weight bold :inherit 'unspecified))))
+    (dired-perm-write ((t (                                                           :inherit 'unspecified))))
+)
 
 
 ; orderless
-(require 'orderless)
-(setq completion-styles '(orderless))
+(use-package orderless
+    :ensure t
+
+    :config
+    (setq completion-styles '(orderless basic))
+    (setq completion-category-defaults nil)
+    (setq completion-category-overrides '((file (styles partial-completion))))
+)
 
 
-; selectrum
-(require 'selectrum)
-(setq selectrum-refine-candidates-function 'orderless-filter)
-(setq selectrum-highlight-candidates-function 'orderless-highlight-matches)
-(global-set-key (kbd "C-x C-z") 'selectrum-repeat)
-(set-face-attribute 'selectrum-current-candidate     nil :foreground "black" :background "white" :inherit 'unspecified)
-(set-face-attribute 'selectrum-completion-annotation nil                                         :inherit 'unspecified)
-(set-face-attribute 'completions-annotations         nil                                         :inherit 'unspecified) ; shouldn't be necessary, should use above (bug?)
-(selectrum-mode t)
+; vertico
+(use-package vertico
+    :ensure t
+
+    :init
+    (vertico-mode)
+
+    :config
+    (setq vertico-resize t)
+
+    :bind
+    ("C-x C-z" . vertico-repeat)
+
+    :custom-face
+    (vertico-current ((t (:foreground "black" :background "white" :inherit 'unspecified))))
+)
 
 
 ; marginalia
-(require 'marginalia)
-(marginalia-mode t)
+(use-package marginalia
+    :ensure t
+
+    :init
+    (marginalia-mode)
+
+    :custom-face
+    (marginalia-documentation ((t (:inherit 'unspecified))))
+)
 
 
 ; ctrlf
-(require 'ctrlf)
-(set-face-attribute 'ctrlf-highlight-active nil  :foreground "black" :background "white"         :inherit 'unspecified)
-(set-face-attribute 'ctrlf-highlight-passive nil :foreground "white" :background "brightmagenta" :inherit 'unspecified)
-(ctrlf-mode t)
+(use-package ctrlf
+    :ensure t
 
+    :init
+    (ctrlf-mode)
 
-; iflipb
-(require 'iflipb)
-(setq iflipb-wrap-around t)
-(setq iflipb-permissive-flip-back t)
-(global-set-key (kbd "C-x <right>") 'iflipb-next-buffer)
-(global-set-key (kbd "C-x <left>") 'iflipb-previous-buffer)
-(global-set-key (kbd "C-x k") 'iflipb-kill-buffer)
+    :custom-face
+    (ctrlf-highlight-active  ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
+    (ctrlf-highlight-passive ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
+)
 
 
 ; consult
-(require 'consult)
-(setq consult-async-min-input 1)
-(global-set-key (kbd "C-x b") 'consult-buffer)
-(global-set-key (kbd "M-y") 'consult-yank-pop)
-(global-set-key (kbd "M-g M-g") 'consult-goto-line)
+(use-package consult
+    :ensure t
+
+    :config
+    (setq consult-async-min-input 1)
+
+    :bind
+    ("M-y"     . consult-yank-pop)
+    ("C-x b"   . consult-buffer)
+    ("M-g g"   . consult-goto-line)
+    ("C-j C-s" . consult-ripgrep)
+    ("C-j C-b" . consult-project-buffer)
+)
 
 
 ; company
-(require 'company)
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 2)
-(setq company-tooltip-align-annotations t)
-(add-to-list 'company-backends 'company-shell)
-(define-key company-mode-map (kbd "TAB") 'company-indent-or-complete-common)
-(define-key company-active-map (kbd "TAB") 'company-complete-selection)
-(set-face-attribute 'company-tooltip                      nil :foreground "black"       :background "white")
-(set-face-attribute 'company-tooltip-selection            nil :foreground "white"       :background "brightblue")
-(set-face-attribute 'company-tooltip-common               nil :foreground "brightblack"                           :underline t)
-(set-face-attribute 'company-tooltip-common-selection     nil :foreground "white")
-(set-face-attribute 'company-tooltip-annotation           nil :foreground "brightred")
-(set-face-attribute 'company-tooltip-annotation-selection nil :foreground "white")
-(set-face-attribute 'company-scrollbar-bg                 nil                           :background "brightblack")
-(set-face-attribute 'company-scrollbar-fg                 nil                           :background "brightwhite")
-(global-company-mode t)
+(use-package company
+    :ensure t
+
+    :init
+    (global-company-mode)
+
+    :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 2)
+    (setq company-tooltip-align-annotations t)
+
+    :bind
+    ("TAB" . company-indent-or-complete-common)
+    (:map company-active-map ("TAB" . company-abort))
+
+    :custom-face
+    (company-tooltip                      ((t (:foreground "black"       :background "white"))))
+    (company-tooltip-selection            ((t (:foreground "white"       :background "brightblue"))))
+    (company-tooltip-common               ((t (:foreground "brightblack"                           :underline t))))
+    (company-tooltip-common-selection     ((t (:foreground "white"))))
+    (company-tooltip-annotation           ((t (:foreground "brightred"))))
+    (company-tooltip-annotation-selection ((t (:foreground "white"))))
+    (company-tooltip-scrollbar-track      ((t (                          :background "brightblack"))))
+    (company-tooltip-scrollbar-thumb      ((t (                          :background "brightwhite"))))
+)
 
 
 ; syntax-subword
-(require 'syntax-subword)
-(global-syntax-subword-mode t)
+(use-package syntax-subword
+    :ensure t
+
+    :init
+    (global-syntax-subword-mode)
+)
 
 
 ; which-key
-(which-key-mode t)
+(use-package which-key
+    :ensure t
+
+    :init
+    (which-key-mode)
+)
 
 
 ; move-text
-(global-set-key (kbd "ESC <down>") 'move-text-down)
-(global-set-key (kbd "ESC <up>") 'move-text-up)
+(use-package move-text
+    :ensure t
+
+    :bind
+    ("ESC <down>" . move-text-down)
+    ("ESC <up>"   . move-text-up)
+)
 
 
-; undo-tree
-(require 'undo-tree)
-(setq undo-tree-auto-save-history t)
-(setq undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" user-emacs-directory))))
-(set-face-attribute 'undo-tree-visualizer-active-branch-face nil :foreground "white" :weight 'bold)
-(set-face-attribute 'undo-tree-visualizer-default-face       nil :foreground "brightwhite")
-(set-face-attribute 'undo-tree-visualizer-unmodified-face    nil :foreground "cyan")
-(set-face-attribute 'undo-tree-visualizer-current-face       nil :foreground "red")
-(global-undo-tree-mode t)
+; undo-fu-session
+(use-package undo-fu-session
+    :ensure t
+
+    :init
+    (undo-fu-session-global-mode)
+)
+
+
+; vundo
+(use-package vundo
+    :ensure t
+
+    :config
+    (setq vundo-glyph-alist vundo-unicode-symbols)
+
+    :bind
+    ("C-x u" . vundo)
+)
 
 
 ; editorconfig
-(editorconfig-mode t)
+(use-package editorconfig
+    :ensure t
 
-
-; flycheck
-(require 'flycheck)
-(set-face-attribute 'flycheck-error   nil :foreground "white" :background "brightred"    :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-warning nil :foreground "white" :background "brightyellow" :underline 'unspecified :inherit 'unspecified)
-(set-face-attribute 'flycheck-info    nil :foreground "white" :background "brightgreen"  :underline 'unspecified :inherit 'unspecified)
-(global-flycheck-mode t)
+    :init
+    (editorconfig-mode)
+)
 
 
 ; diff-hl
-(require 'diff-hl)
-(setq diff-hl-side 'right)
-(set-face-attribute 'diff-hl-insert nil :foreground "brightgreen" :background "brightgreen" :inherit 'unspecified)
-(set-face-attribute 'diff-hl-delete nil :foreground "brightred"   :background "brightred"   :inherit 'unspecified)
-(set-face-attribute 'diff-hl-change nil :foreground "brightblue"  :background "brightblue")
-(global-diff-hl-mode t)
-(diff-hl-margin-mode t)
-(diff-hl-flydiff-mode t)
+(use-package diff-hl
+    :ensure t
+
+    :init
+    (global-diff-hl-mode)
+    (diff-hl-margin-mode)
+    (diff-hl-flydiff-mode)
+
+    :config
+    (setq diff-hl-side 'right)
+
+    :custom-face
+    (diff-hl-insert ((t (:foreground "brightgreen" :background "brightgreen" :inherit 'unspecified))))
+    (diff-hl-delete ((t (:foreground "brightred"   :background "brightred"   :inherit 'unspecified))))
+    (diff-hl-change ((t (:foreground "brightblue"  :background "brightblue"))))
+)
 
 
-; idle-highlight
-(require 'idle-highlight-mode)
-(set-face-attribute 'idle-highlight nil :foreground "brightmagenta" :inherit 'unspecified)
-(add-hook 'prog-mode-hook 'idle-highlight-mode)
+; idle-highlight-mode
+(use-package idle-highlight-mode
+    :ensure t
+
+    :hook
+    (prog-mode . idle-highlight-mode)
+
+    :custom-face
+    (idle-highlight ((t (:foreground "brightmagenta" :inherit 'unspecified))))
+)
 
 
 ; smartscan
-(global-smartscan-mode t)
+(use-package smartscan
+    :ensure t
+
+    :init
+    (global-smartscan-mode)
+)
 
 
 ; indent-guide
-(require 'indent-guide)
-(setq indent-guide-char "∙")
-(set-face-attribute 'indent-guide-face nil :foreground "brightwhite")
-(indent-guide-global-mode t)
+(use-package indent-guide
+    :ensure t
+
+    :hook
+    (prog-mode . indent-guide-mode)
+
+    :config
+    (setq indent-guide-char "∙")
+
+    :custom-face
+    (indent-guide-face ((t (:foreground "brightwhite"))))
+)
 
 
-; lsp
-(require 'lsp)
-(setq lsp-enable-file-watchers nil)
-(set-face-attribute 'lsp-face-highlight-read    nil :foreground "brightmagenta" :background 'unspecified    :underline t :inherit 'unspecified)
-(set-face-attribute 'lsp-face-highlight-textual nil :foreground "white"         :background "brightmagenta"              :inherit 'unspecified)
-(add-hook 'prog-mode-hook 'lsp)
-
-
-; lsp-headerline
-(require 'lsp-headerline)
-(setq lsp-headerline-arrow "→")
-(set-face-attribute 'lsp-headerline-breadcrumb-path-face            nil :foreground "black")
-(set-face-attribute 'lsp-headerline-breadcrumb-path-error-face      nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-path-warning-face    nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-path-hint-face       nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-path-info-face       nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-face         nil                                             :inherit 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-error-face   nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-warning-face nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-hint-face    nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-symbols-info-face    nil                     :underline 'unspecified)
-(set-face-attribute 'lsp-headerline-breadcrumb-separator-face       nil                                             :inherit 'unspecified)
-
-
-;
+;;
