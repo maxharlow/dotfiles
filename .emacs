@@ -1,61 +1,31 @@
-; why backup when we can autosave
-(auto-save-visited-mode t)
-(setq auto-save-timeout 1)
-(setq auto-save-interval 20)
-(setq make-backup-files nil)
-(setq create-lockfiles nil)
-(setq kill-buffer-delete-auto-save-files t)
+
+; CORE
+
+; search for packages in Melpa
+(use-package package
+    :config
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+)
+
+; save customisations in a separate file
+(use-package custom
+    :config
+    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+)
+
+; project shortcuts
+(use-package project
+    :init
+    (keymap-global-unset "C-j")
+
+    :bind
+    ("C-j C-b" . project-list-buffers)
+    ("C-j C-f" . project-find-file)
+    ("C-j C-%" . project-query-replace-regexp)
+)
 
 
-; default character encoding
-(prefer-coding-system 'utf-8-unix)
-
-
-; remove scratch buffer
-(kill-buffer "*scratch*")
-
-
-; save customisation separately
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-
-; truncate and tidy long lines
-(set-display-table-slot standard-display-table 'vertical-border ?│)
-(set-display-table-slot standard-display-table 'wrap ? )
-(set-display-table-slot standard-display-table 'truncation ?…)
-(setq-default truncate-lines t)
-
-
-; text editing
-(add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
-(add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
-
-
-; no menubar
-(menu-bar-mode -1)
-
-
-; keeping track of where we are
-(column-number-mode t)
-(global-hl-line-mode t)
-(global-display-line-numbers-mode t)
-
-
-; automatically pair characters
-(electric-pair-mode t)
-
-
-; automatically reload changed buffers
-(global-auto-revert-mode t)
-
-
-; distinguish between buffers with the same file name
-(setq uniquify-buffer-name-style 'forward)
-
-
-; tab key should indent on first press, complete on second
-(setq tab-always-indent 'complete)
-
+; INTERFACE
 
 ; mode-line format
 (defun mode-line ()
@@ -85,111 +55,41 @@
 
 (setq-default mode-line-format '(:eval (mode-line)))
 
+(use-package emacs
+    :init
+    (kill-buffer "*scratch*") ; remove scratch buffer
+    (menu-bar-mode -1) ; no menubar
 
-; colourscheme
-(set-face-attribute 'mode-line                nil :foreground "black"         :background "brightwhite"                            :inverse-video 'unspecified)
-(set-face-attribute 'header-line              nil :foreground "black"         :background "brightwhite"   :underline 'unspecified                              :inherit 'unspecified)
-(set-face-attribute 'line-number              nil :foreground "brightwhite"   :background "brightblack")
-(set-face-attribute 'line-number-current-line nil :foreground "white"         :background "brightblack")
-(set-face-attribute 'minibuffer-prompt        nil :foreground "brightwhite")
-(set-face-attribute 'highlight                nil                             :background "brightblack")
-(set-face-attribute 'region                   nil :foreground "black"         :background "brightblue")
-(set-face-attribute 'show-paren-match         nil :foreground "white"         :background "brightmagenta")
-(set-face-attribute 'show-paren-mismatch      nil :foreground "white"         :background "red"                                    :inverse-video t)
-(set-face-attribute 'trailing-whitespace      nil                             :background "red")
+    ; keep track of where we are
+    (column-number-mode t)
+    (global-hl-line-mode t)
+    (global-display-line-numbers-mode t)
 
+    (electric-pair-mode t) ; automatically pair characters
 
-; syntax highlighting
-(set-face-attribute 'font-lock-keyword-face       nil :foreground "blue"                    :weight 'bold)
-(set-face-attribute 'font-lock-builtin-face       nil :foreground "blue"                    :weight 'bold)
-(set-face-attribute 'font-lock-function-name-face nil :foreground "blue")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "yellow")
-(set-face-attribute 'font-lock-constant-face      nil :foreground "yellow")
-(set-face-attribute 'font-lock-string-face        nil :foreground "green")
-(set-face-attribute 'font-lock-type-face          nil :foreground "cyan")
-(set-face-attribute 'font-lock-comment-face       nil :foreground "red")
-(set-face-attribute 'font-lock-warning-face       nil :foreground "white" :background "red" :weight 'bold :inherit 'unspecified)
-
-
-; shortcuts
-(global-set-key (kbd "C-M-n") 'scroll-up-line)
-(global-set-key (kbd "C-M-p") 'scroll-down-line)
-(global-set-key (kbd "C-n")   (lambda () (interactive) (forward-line  5)))
-(global-set-key (kbd "C-p")   (lambda () (interactive) (forward-line -5)))
-(global-set-key (kbd "M-3")   (lambda () (interactive) (insert "#")))
-(global-set-key (kbd "M-;")   'comment-line)
-(global-set-key (kbd "M-%")   'query-replace-regexp)
-
-
-; package
-(use-package package
-    :config
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-)
-
-
-; project
-(global-unset-key (kbd "C-j"))
-(use-package project
-    :bind
-    ("C-j C-b" . project-list-buffers)
-    ("C-j C-f" . project-find-file)
-    ("C-j C-%" . project-query-replace-regexp)
-)
-
-
-; treesit-auto
-(use-package treesit-auto
-    :ensure t
+    ; truncate and tidy long lines
+    (set-display-table-slot standard-display-table 'vertical-border ?│)
+    (set-display-table-slot standard-display-table 'wrap ? )
+    (set-display-table-slot standard-display-table 'truncation ?…)
+    (setq-default truncate-lines t)
 
     :config
-    (global-treesit-auto-mode)
-    (setq treesit-auto-install 'prompt)
-)
-
-
-; eglot
-(use-package eglot
-    :hook
-    (prog-mode . eglot-ensure)
-)
-
-
-; language modes
-(use-package markdown-mode
-    :ensure t
-)
-(use-package csv-mode
-    :ensure t
-)
-(use-package json-mode
-    :ensure t
-)
-(use-package yaml-mode
-    :ensure t
-)
-(use-package dotenv-mode
-    :ensure t
-)
-
-
-; dired
-(use-package dired
-    :config
-    (setq dired-listing-switches "-lohaF")
+    (setq uniquify-buffer-name-style 'forward) ; distinguish between buffers with the same file name
 
     :custom-face
-    (dired-header     ((t (:foreground "brightwhite"                                  :inherit 'unspecified))))
-    (dired-directory  ((t (:foreground "green"                                        :inherit 'unspecified))))
-    (dired-symlink    ((t (:foreground "magenta"                                      :inherit 'unspecified))))
-    (dired-mark       ((t (:foreground "black"       :background "white" :weight bold :inherit 'unspecified))))
-    (dired-marked     ((t (:foreground "yellow"                          :weight bold :inherit 'unspecified))))
-    (dired-flagged    ((t (:foreground "red"                             :weight bold :inherit 'unspecified))))
-    (dired-perm-write ((t (                                                           :inherit 'unspecified))))
+    ; colourscheme faces
+    (mode-line                ((t (:foreground "black"         :background "brightwhite"                            :inverse-video unspecified))))
+    (line-number              ((t (:foreground "brightwhite"   :background "brightblack"))))
+    (line-number-current-line ((t (:foreground "white"         :background "brightblack"))))
+    (minibuffer-prompt        ((t (:foreground "brightwhite"))))
+    (highlight                ((t (                            :background "brightblack"))))
+    (region                   ((t (:foreground "black"         :background "brightblue"))))
+    (show-paren-match         ((t (:foreground "white"         :background "brightmagenta"))))
+    (show-paren-mismatch      ((t (:foreground "white"         :background "brightred"))))
+    (trailing-whitespace      ((t (                            :background "red"))))
 )
 
-
-; orderless
+; orderless completion style
 (use-package orderless
     :ensure t
 
@@ -199,8 +99,7 @@
     (setq completion-category-overrides '((file (styles partial-completion))))
 )
 
-
-; vertico
+; completion interface
 (use-package vertico
     :ensure t
 
@@ -217,8 +116,7 @@
     (vertico-current ((t (:foreground "black" :background "white" :inherit 'unspecified))))
 )
 
-
-; marginalia
+; show annotations inside completion interface
 (use-package marginalia
     :ensure t
 
@@ -229,37 +127,7 @@
     (marginalia-documentation ((t (:inherit 'unspecified))))
 )
 
-
-; ctrlf
-(use-package ctrlf
-    :ensure t
-
-    :init
-    (ctrlf-mode)
-
-    :custom-face
-    (ctrlf-highlight-active  ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
-    (ctrlf-highlight-passive ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
-)
-
-
-; consult
-(use-package consult
-    :ensure t
-
-    :config
-    (setq consult-async-min-input 1)
-
-    :bind
-    ("M-y"     . consult-yank-pop)
-    ("C-x b"   . consult-buffer)
-    ("M-g g"   . consult-goto-line)
-    ("C-j C-s" . consult-ripgrep)
-    ("C-j C-b" . consult-project-buffer)
-)
-
-
-; company
+; completion-at-point interface
 (use-package company
     :ensure t
 
@@ -286,66 +154,22 @@
     (company-tooltip-scrollbar-thumb      ((t (                          :background "brightwhite"))))
 )
 
-
-; syntax-subword
-(use-package syntax-subword
-    :ensure t
-
-    :init
-    (global-syntax-subword-mode)
-)
-
-
-; which-key
-(use-package which-key
-    :ensure t
-
-    :init
-    (which-key-mode)
-)
-
-
-; move-text
-(use-package move-text
-    :ensure t
-
-    :bind
-    ("ESC <down>" . move-text-down)
-    ("ESC <up>"   . move-text-up)
-)
-
-
-; undo-fu-session
-(use-package undo-fu-session
-    :ensure t
-
-    :init
-    (undo-fu-session-global-mode)
-)
-
-
-; vundo
-(use-package vundo
+; improved search and navigation commands
+(use-package consult
     :ensure t
 
     :config
-    (setq vundo-glyph-alist vundo-unicode-symbols)
+    (setq consult-async-min-input 1)
 
     :bind
-    ("C-x u" . vundo)
+    ("M-y"     . consult-yank-pop)
+    ("C-x b"   . consult-buffer)
+    ("M-g g"   . consult-goto-line)
+    ("C-j C-s" . consult-ripgrep)
+    ("C-j C-b" . consult-project-buffer)
 )
 
-
-; editorconfig
-(use-package editorconfig
-    :ensure t
-
-    :init
-    (editorconfig-mode)
-)
-
-
-; diff-hl
+; highlight uncommitted changes
 (use-package diff-hl
     :ensure t
 
@@ -363,29 +187,7 @@
     (diff-hl-change ((t (:foreground "brightblue"  :background "brightblue"))))
 )
 
-
-; idle-highlight-mode
-(use-package idle-highlight-mode
-    :ensure t
-
-    :hook
-    (prog-mode . idle-highlight-mode)
-
-    :custom-face
-    (idle-highlight ((t (:foreground "brightmagenta" :inherit 'unspecified))))
-)
-
-
-; smartscan
-(use-package smartscan
-    :ensure t
-
-    :init
-    (global-smartscan-mode)
-)
-
-
-; indent-guide
+; display indentation markers
 (use-package indent-guide
     :ensure t
 
@@ -397,6 +199,195 @@
 
     :custom-face
     (indent-guide-face ((t (:foreground "brightwhite"))))
+)
+
+; highlight current symbol
+(use-package idle-highlight-mode
+    :ensure t
+
+    :hook
+    (prog-mode . idle-highlight-mode)
+
+    :custom-face
+    (idle-highlight ((t (:foreground "brightmagenta" :inherit 'unspecified))))
+)
+
+; show onward keybindings
+(use-package which-key
+    :ensure t
+
+    :init
+    (which-key-mode)
+)
+
+
+; MOVEMENT
+
+(use-package emacs
+    :bind
+    ; movement shortcuts
+    ("C-M-n" . 'scroll-up-line)
+    ("C-M-p" . 'scroll-down-line)
+    ("C-n"   . (lambda () (interactive) (forward-line  5)))
+    ("C-p"   . (lambda () (interactive) (forward-line -5)))
+)
+
+; improved buffer search
+(use-package ctrlf
+    :ensure t
+
+    :init
+    (ctrlf-mode)
+
+    :custom-face
+    (ctrlf-highlight-active  ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
+    (ctrlf-highlight-passive ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
+)
+
+; jump between current symbols with M-n and M-p
+(use-package smartscan
+    :ensure t
+
+    :init
+    (global-smartscan-mode)
+)
+
+; camelcase-aware point movement
+(use-package syntax-subword
+    :ensure t
+
+    :init
+    (global-syntax-subword-mode)
+)
+
+
+; EDITING
+
+(use-package emacs
+    :init
+    (prefer-coding-system 'utf-8-unix) ; default character encoding
+    (global-auto-revert-mode t) ; automatically reload changed buffers
+
+    :config
+    ; why backup when we can autosave
+    (auto-save-visited-mode t)
+    (setq auto-save-timeout 1)
+    (setq auto-save-interval 20)
+    (setq make-backup-files nil)
+    (setq create-lockfiles nil)
+    (setq kill-buffer-delete-auto-save-files t)
+
+    (setq tab-always-indent 'complete) ; tab key should indent on first press, complete on second
+
+    ; text editing
+    (add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
+    (add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
+
+    :bind
+    ; editing shortcuts
+    ("M-3" . (lambda () (interactive) (insert "#")))
+    ("M-;" . 'comment-line)
+    ("M-%" . 'query-replace-regexp)
+)
+
+; persist undo data
+(use-package undo-fu-session
+    :ensure t
+
+    :init
+    (undo-fu-session-global-mode)
+)
+
+; undo tree interface
+(use-package vundo
+    :ensure t
+
+    :config
+    (setq vundo-glyph-alist vundo-unicode-symbols)
+
+    :bind
+    ("C-x u" . vundo)
+)
+
+; move current line up or down
+(use-package move-text
+    :ensure t
+
+    :bind
+    ("ESC <down>" . move-text-down)
+    ("ESC <up>"   . move-text-up)
+)
+
+; respect editorconfig files
+(use-package editorconfig
+    :ensure t
+
+    :init
+    (editorconfig-mode)
+)
+
+
+; LANGUAGES
+
+(use-package emacs
+    ; syntax highlighting faces
+    :custom-face
+    (font-lock-keyword-face       ((t (:foreground "blue"                    :weight bold))))
+    (font-lock-builtin-face       ((t (:foreground "blue"                    :weight bold))))
+    (font-lock-function-name-face ((t (:foreground "blue"))))
+    (font-lock-variable-name-face ((t (:foreground "yellow"))))
+    (font-lock-constant-face      ((t (:foreground "yellow"))))
+    (font-lock-string-face        ((t (:foreground "green"))))
+    (font-lock-type-face          ((t (:foreground "cyan"))))
+    (font-lock-comment-face       ((t (:foreground "red"))))
+    (font-lock-warning-face       ((t (:foreground "white" :background "red" :weight bold :inherit 'unspecified))))
+)
+
+; prompt install treesit grammars and automatically switch to treesit modes when available
+(use-package treesit-auto
+    :ensure t
+
+    :config
+    (global-treesit-auto-mode)
+    (setq treesit-auto-install 'prompt)
+)
+
+; interface with lsp servers
+(use-package eglot
+    :hook
+    (prog-mode . eglot-ensure)
+)
+
+; ensure other language modes are installed
+(use-package markdown-mode
+    :ensure t
+)
+(use-package csv-mode
+    :ensure t
+)
+(use-package json-mode
+    :ensure t
+)
+(use-package yaml-mode
+    :ensure t
+)
+(use-package dotenv-mode
+    :ensure t
+)
+
+; directory listings
+(use-package dired
+    :config
+    (setq dired-listing-switches "-lohaF")
+
+    :custom-face
+    (dired-header     ((t (:foreground "brightwhite"                                  :inherit 'unspecified))))
+    (dired-directory  ((t (:foreground "green"                                        :inherit 'unspecified))))
+    (dired-symlink    ((t (:foreground "magenta"                                      :inherit 'unspecified))))
+    (dired-mark       ((t (:foreground "black"       :background "white" :weight bold :inherit 'unspecified))))
+    (dired-marked     ((t (:foreground "yellow"                          :weight bold :inherit 'unspecified))))
+    (dired-flagged    ((t (:foreground "red"                             :weight bold :inherit 'unspecified))))
+    (dired-perm-write ((t (                                                           :inherit 'unspecified))))
 )
 
 
