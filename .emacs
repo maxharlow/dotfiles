@@ -223,9 +223,9 @@
 
 ; MOVEMENT
 
+; movement shortcuts
 (use-package emacs
     :bind
-    ; movement shortcuts
     ("C-M-n" . 'scroll-up-line)
     ("C-M-p" . 'scroll-down-line)
     ("C-n"   . (lambda () (interactive) (forward-line  5)))
@@ -266,7 +266,6 @@
 (use-package emacs
     :init
     (prefer-coding-system 'utf-8-unix) ; default character encoding
-    (global-auto-revert-mode t) ; automatically reload changed buffers
 
     :config
     ; why backup when we can autosave
@@ -288,6 +287,16 @@
     ("M-3" . (lambda () (interactive) (insert "#")))
     ("M-;" . 'comment-line)
     ("M-%" . 'query-replace-regexp)
+)
+
+; reread from disc if the underlying file changes
+(use-package autorevert
+    :init
+    (global-auto-revert-mode)
+
+    :config
+    (setq auto-revert-interval 1)
+    (setq auto-revert-check-vc-info t)
 )
 
 ; persist undo data
@@ -332,15 +341,16 @@
 (use-package emacs
     ; syntax highlighting faces
     :custom-face
-    (font-lock-keyword-face       ((t (:foreground "blue"                    :weight bold))))
-    (font-lock-builtin-face       ((t (:foreground "blue"                    :weight bold))))
-    (font-lock-function-name-face ((t (:foreground "blue"))))
+    (font-lock-keyword-face       ((t (:foreground "blue"                             :weight bold))))
+    (font-lock-builtin-face       ((t (:foreground "blue"                             :weight bold))))
+    (font-lock-function-name-face ((t (:foreground "cyan"))))
     (font-lock-variable-name-face ((t (:foreground "yellow"))))
     (font-lock-constant-face      ((t (:foreground "yellow"))))
     (font-lock-string-face        ((t (:foreground "green"))))
+    (font-lock-escape-face        ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
     (font-lock-type-face          ((t (:foreground "cyan"))))
     (font-lock-comment-face       ((t (:foreground "red"))))
-    (font-lock-warning-face       ((t (:foreground "white" :background "red" :weight bold :inherit 'unspecified))))
+    (font-lock-warning-face       ((t (:foreground "black" :background "brightyellow"              :inherit 'unspecified))))
 )
 
 ; prompt install treesit grammars and automatically switch to treesit modes when available
@@ -356,6 +366,10 @@
 (use-package eglot
     :hook
     (prog-mode . eglot-ensure)
+
+    :custom-face
+    (eglot-diagnostic-tag-unnecessary-face ((t (:foreground "black"         :background "brightyellow" :inherit 'unspecified))))
+    (eglot-highlight-symbol-face           ((t (:foreground "brightmagenta"                            :inherit 'unspecified))))
 )
 
 ; ensure other language modes are installed
