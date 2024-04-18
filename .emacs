@@ -232,16 +232,14 @@
     ("C-p"   . (lambda () (interactive) (forward-line -5)))
 )
 
-; improved buffer search
-(use-package ctrlf
-    :ensure t
-
-    :init
-    (ctrlf-mode)
+; search in buffers
+(use-package isearch
+    :config
+    (setq isearch-repeat-on-direction-change t)
 
     :custom-face
-    (ctrlf-highlight-active  ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
-    (ctrlf-highlight-passive ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
+    (isearch        ((t (:foreground "black" :background "white"))))
+    (lazy-highlight ((t (:foreground "white" :background "brightmagenta"))))
 )
 
 ; jump between current symbols with M-n and M-p
