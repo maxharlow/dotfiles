@@ -268,13 +268,15 @@
     (prefer-coding-system 'utf-8-unix) ; default character encoding
 
     :config
-    ; why backup when we can autosave
+    ; autosaves and backups
     (auto-save-visited-mode t)
     (setq auto-save-timeout 1)
     (setq auto-save-interval 20)
     (setq make-backup-files nil)
     (setq create-lockfiles nil)
     (setq kill-buffer-delete-auto-save-files t)
+
+    (setq kill-whole-line t) ; when point is in column zero kill the newline as well as the line itself
 
     (setq tab-always-indent 'complete) ; tab key should indent on first press, complete on second
 
