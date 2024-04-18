@@ -5,6 +5,9 @@
 [init]
 	defaultBranch = main
 
+[alias]
+    ls = log --pretty=format:"%C(yellow)%h\\ %Creset%s%Cblue\\ [%an]%C(cyan)%d" --decorate
+
 [fetch]
 	prune = true
 
