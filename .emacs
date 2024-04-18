@@ -363,10 +363,8 @@
 )
 
 ; interface with lsp servers
+; not enabled by default
 (use-package eglot
-    :hook
-    (prog-mode . eglot-ensure)
-
     :custom-face
     (eglot-diagnostic-tag-unnecessary-face ((t (:foreground "black"         :background "brightyellow" :inherit 'unspecified))))
     (eglot-highlight-symbol-face           ((t (:foreground "brightmagenta"                            :inherit 'unspecified))))
