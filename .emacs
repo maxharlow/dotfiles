@@ -39,8 +39,8 @@
     mode-line-position
     mode-line-format-right-align
     (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (car (vc-git-branches))))
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) " *")))
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " •")))
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) "*")))
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) "•")))
     (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) " │ "))
     (:eval (upcase (symbol-name buffer-file-coding-system)))
     " │ "
@@ -331,16 +331,18 @@
 (use-package emacs
     ; syntax highlighting faces
     :custom-face
-    (font-lock-keyword-face       ((t (:foreground "blue"                             :weight bold))))
-    (font-lock-builtin-face       ((t (:foreground "blue"                             :weight bold))))
-    (font-lock-function-name-face ((t (:foreground "cyan"))))
-    (font-lock-variable-name-face ((t (:foreground "yellow"))))
-    (font-lock-constant-face      ((t (:foreground "yellow"))))
-    (font-lock-string-face        ((t (:foreground "green"))))
-    (font-lock-escape-face        ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
-    (font-lock-type-face          ((t (:foreground "cyan"))))
-    (font-lock-comment-face       ((t (:foreground "red"))))
-    (font-lock-warning-face       ((t (:foreground "black" :background "brightyellow"              :inherit 'unspecified))))
+    (font-lock-keyword-face          ((t (:foreground "blue"                             :weight bold))))
+    (font-lock-builtin-face          ((t (:foreground "blue"                             :weight bold))))
+    (font-lock-function-name-face    ((t (:foreground "cyan"))))
+    (font-lock-variable-name-face    ((t (:foreground "yellow"))))
+    (font-lock-constant-face         ((t (:foreground "yellow"))))
+    (font-lock-string-face           ((t (:foreground "green"))))
+    (font-lock-misc-punctuation-face ((t (:foreground "green" :weight bold                                   :inherit 'unspecified))))
+    (font-lock-regexp-face           ((t (:foreground "brightgreen"                                       :inherit 'unspecified))))
+    (font-lock-escape-face           ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
+    (font-lock-type-face             ((t (:foreground "cyan"))))
+    (font-lock-comment-face          ((t (:foreground "red"))))
+    (font-lock-warning-face          ((t (:foreground "black" :background "brightyellow"              :inherit 'unspecified))))
 )
 
 ; prompt install treesit grammars and automatically switch to treesit modes when available
