@@ -38,10 +38,10 @@
     " │ "
     mode-line-position
     mode-line-format-right-align
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (car (vc-git-branches))))
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) "*")))
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) "•")))
-    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) " │ "))
+    ;; (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (car (vc-git-branches))))
+    ;; (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) "*")))
+    ;; (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) "•")))
+    ;; (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) " │ "))
     (:eval (upcase (symbol-name buffer-file-coding-system)))
     " │ "
     mode-name
