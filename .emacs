@@ -28,32 +28,24 @@
 ; INTERFACE
 
 ; mode-line format
-(defun mode-line ()
-    (let* (
-              (project      (if (project-current)
-                                (concat (file-name-nondirectory (directory-file-name (project-root (project-current)))) " → ")))
-              (buffer       (if (project-current)
-                                (file-relative-name (buffer-name) (project-root (project-current)))
-                                (substring-no-properties (buffer-name))))
-              (saved        (if (buffer-modified-p) " •" (if buffer-read-only " ×")))
-              (position     mode-line-position)
-              (coding       (upcase (symbol-name buffer-file-coding-system)))
-              (mode         mode-name)
-              (git-branch   (if (eq (vc-backend (buffer-file-name)) 'Git)
-                                (concat " │ " (car (vc-git-branches)))))
-              (git-staged   (if (eq (vc-backend (buffer-file-name)) 'Git)
-                                (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) "*")))
-              (git-unstaged   (if (eq (vc-backend (buffer-file-name)) 'Git)
-                                (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) "•")))
-              (git-stage    (if (or git-staged git-unstaged)
-                                (concat " " git-staged git-unstaged)))
-              (left         (format-mode-line (list " " project buffer saved " │ " position)))
-              (right        (format-mode-line (list " " coding " │ " mode git-stage " ")))
-              (spacer-size  (- (window-total-width) (length left) (length right)))
-              (spacer       (make-string (if (< spacer-size 3) 3 spacer-size) ?\s)))
-        (concat left spacer right)))
-
-(setq-default mode-line-format '(:eval (mode-line)))
+(setq-default mode-line-format '(""
+    " "
+    (:eval (if (project-current) (file-name-nondirectory (directory-file-name (project-root (project-current)))))) ; project
+    (:eval (if (project-current) " → "))
+    (:eval (if (project-current) (file-relative-name (buffer-name) (project-root (project-current))) (substring-no-properties (buffer-name)))) ; buffer
+    " "
+    (:eval (if (buffer-modified-p) "•" (if buffer-read-only "×"))) ; saved?
+    " │ "
+    mode-line-position
+    mode-line-format-right-align
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (car (vc-git-branches))))
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet" "--staged") nil) " *")))
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) (if (eq (vc-git--run-command-string nil "diff" "--quiet") nil) " •")))
+    (:eval (if (eq (vc-backend (buffer-file-name)) 'Git) " │ "))
+    (:eval (upcase (symbol-name buffer-file-coding-system)))
+    " │ "
+    mode-name
+))
 
 (use-package emacs
     :init
