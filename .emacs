@@ -232,6 +232,23 @@
     (lazy-highlight ((t (:foreground "white" :background "brightmagenta"))))
 )
 
+; better replace interface
+(use-package visual-replace
+    :ensure t
+
+    :init
+    (visual-replace-global-mode)
+
+    :config
+    (setopt visual-replace-default-to-full-scope t)
+
+    :custom-face
+    (visual-replace-match         ((t (:foreground "white" :background "brightmagenta"))))
+    (visual-replace-delete-match  ((t (:foreground "black" :background "brightred"))))
+    (visual-replace-replacement   ((t (:foreground "black" :background "white"))))
+
+)
+
 ; jump between current symbols with M-n and M-p
 (use-package smartscan
     :ensure t
@@ -276,7 +293,6 @@
     ; editing shortcuts
     ("M-3" . (lambda () (interactive) (insert "#")))
     ("M-;" . 'comment-line)
-    ("M-%" . 'query-replace-regexp)
 )
 
 ; reread from disc if the underlying file changes
