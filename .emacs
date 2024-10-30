@@ -243,9 +243,9 @@
     (setopt visual-replace-default-to-full-scope t)
 
     :custom-face
-    (visual-replace-match         ((t (:foreground "white" :background "brightmagenta"))))
+    (visual-replace-match         ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
     (visual-replace-delete-match  ((t (:foreground "black" :background "brightred"))))
-    (visual-replace-replacement   ((t (:foreground "black" :background "white"))))
+    (visual-replace-replacement   ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
 
 )
 
@@ -353,8 +353,8 @@
     (font-lock-variable-name-face    ((t (:foreground "yellow"))))
     (font-lock-constant-face         ((t (:foreground "yellow"))))
     (font-lock-string-face           ((t (:foreground "green"))))
-    (font-lock-misc-punctuation-face ((t (:foreground "green" :weight bold                                   :inherit 'unspecified))))
-    (font-lock-regexp-face           ((t (:foreground "brightgreen"                                       :inherit 'unspecified))))
+    (font-lock-misc-punctuation-face ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
+    (font-lock-regexp-face           ((t (:foreground "brightgreen"                                   :inherit 'unspecified))))
     (font-lock-escape-face           ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
     (font-lock-type-face             ((t (:foreground "cyan"))))
     (font-lock-comment-face          ((t (:foreground "red"))))
