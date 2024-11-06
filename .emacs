@@ -239,14 +239,14 @@
     :init
     (visual-replace-global-mode)
 
-    :config
-    (setopt visual-replace-default-to-full-scope t)
+    :hook
+    (visual-replace-minibuffer-mode . visual-replace-toggle-query)
 
     :custom-face
     (visual-replace-match         ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
     (visual-replace-delete-match  ((t (:foreground "black" :background "brightred"))))
     (visual-replace-replacement   ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
-
+    (visual-replace-region        ((t (                                                :inherit 'unspecified))))
 )
 
 ; jump between current symbols with M-n and M-p
