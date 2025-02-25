@@ -382,6 +382,9 @@
 (use-package markdown-mode
     :ensure t
 )
+(use-package quarto-mode
+    :ensure t
+)
 (use-package csv-mode
     :ensure t
 )
