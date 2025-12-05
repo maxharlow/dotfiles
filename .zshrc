@@ -5,6 +5,7 @@ disable r
 
 
 # colours
+export COLORTERM='color16'
 export LESS_TERMCAP_md=$(tput bold) # bold
 export LESS_TERMCAP_us=$(tput smul) # underlined
 export LESS_TERMCAP_ue=$(tput rmul) # end underlined
