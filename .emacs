@@ -123,8 +123,8 @@
 (use-package company
     :ensure t
 
-    :init
-    (global-company-mode)
+    :hook
+    (prog-mode . company-mode)
 
     :config
     (setq company-idle-delay 0)
@@ -242,6 +242,9 @@
     :hook
     (visual-replace-minibuffer-mode . visual-replace-toggle-query)
 
+    :config
+    (define-key visual-replace-mode-map [remap yank] nil)
+
     :custom-face
     (visual-replace-match         ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
     (visual-replace-delete-match  ((t (:foreground "black" :background "brightred"))))
@@ -293,6 +296,12 @@
     ; editing shortcuts
     ("M-3" . (lambda () (interactive) (insert "#")))
     ("M-;" . 'comment-line)
+)
+
+; merging
+(use-package emacs
+    :custom-face
+    (smerge-markers ((t (:foreground "black" :background "white" :weight bold))))
 )
 
 ; reread from disc if the underlying file changes
@@ -368,6 +377,7 @@
     :config
     (global-treesit-auto-mode)
     (setq treesit-auto-install 'prompt)
+    (setq treesit-auto-add-to-auto-mode-alist 'all)
 )
 
 ; interface with lsp servers
