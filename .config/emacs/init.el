@@ -68,7 +68,7 @@
 
     ; truncate and tidy long lines
     (set-display-table-slot standard-display-table 'vertical-border ?│)
-    (set-display-table-slot standard-display-table 'wrap ? )
+    (set-display-table-slot standard-display-table 'wrap ?\s)
     (set-display-table-slot standard-display-table 'truncation ?…)
     (setq-default truncate-lines t)
 
@@ -112,7 +112,7 @@
     ("C-x C-z" . vertico-repeat)
 
     :custom-face
-    (vertico-current ((t (:foreground "black" :background "white" :inherit 'unspecified))))
+    (vertico-current ((t (:foreground "black" :background "white" :inherit unspecified))))
 )
 
 ; show annotations inside completion interface
@@ -123,7 +123,7 @@
     (marginalia-mode)
 
     :custom-face
-    (marginalia-documentation ((t (:inherit 'unspecified))))
+    (marginalia-documentation ((t (:inherit unspecified))))
 )
 
 ; completion-at-point interface
@@ -165,7 +165,6 @@
     ("C-x b"   . consult-buffer)
     ("M-g g"   . consult-goto-line)
     ("C-j C-s" . consult-ripgrep)
-    ("C-j C-b" . consult-project-buffer)
 )
 
 ; highlight uncommitted changes
@@ -181,8 +180,8 @@
     (setq diff-hl-side 'right)
 
     :custom-face
-    (diff-hl-insert ((t (:foreground "brightgreen" :background "brightgreen" :inherit 'unspecified))))
-    (diff-hl-delete ((t (:foreground "brightred"   :background "brightred"   :inherit 'unspecified))))
+    (diff-hl-insert ((t (:foreground "brightgreen" :background "brightgreen" :inherit unspecified))))
+    (diff-hl-delete ((t (:foreground "brightred"   :background "brightred"   :inherit unspecified))))
     (diff-hl-change ((t (:foreground "brightblue"  :background "brightblue"))))
 )
 
@@ -208,7 +207,7 @@
     (prog-mode . idle-highlight-mode)
 
     :custom-face
-    (idle-highlight ((t (:foreground "brightmagenta" :inherit 'unspecified))))
+    (idle-highlight ((t (:foreground "brightmagenta" :inherit unspecified))))
 )
 
 ; show onward keybindings
@@ -223,10 +222,10 @@
 ; movement shortcuts
 (use-package emacs
     :bind
-    ("C-M-n" . 'scroll-up-line)
-    ("C-M-p" . 'scroll-down-line)
-    ("C-n"   . (lambda () (interactive) (forward-line  5)))
-    ("C-p"   . (lambda () (interactive) (forward-line -5)))
+    ("C-M-n" . scroll-up-line)
+    ("C-M-p" . scroll-down-line)
+    ("C-n"   . (lambda () (interactive) (line-move  5)))
+    ("C-p"   . (lambda () (interactive) (line-move -5)))
 )
 
 ; search in buffers
@@ -250,13 +249,13 @@
     (visual-replace-minibuffer-mode . visual-replace-toggle-query)
 
     :config
-    (define-key visual-replace-mode-map [remap yank] nil)
+    (keymap-unset visual-replace-mode-map "<remap> <yank>")
 
     :custom-face
-    (visual-replace-match         ((t (:foreground "white" :background "brightmagenta" :inherit 'unspecified))))
+    (visual-replace-match         ((t (:foreground "white" :background "brightmagenta" :inherit unspecified))))
     (visual-replace-delete-match  ((t (:foreground "black" :background "brightred"))))
-    (visual-replace-replacement   ((t (:foreground "black" :background "white"         :inherit 'unspecified))))
-    (visual-replace-region        ((t (                                                :inherit 'unspecified))))
+    (visual-replace-replacement   ((t (:foreground "black" :background "white"         :inherit unspecified))))
+    (visual-replace-region        ((t (                                                :inherit unspecified))))
 )
 
 ; jump between current symbols with M-n and M-p
@@ -302,11 +301,11 @@
     :bind
     ; editing shortcuts
     ("M-3" . (lambda () (interactive) (insert "#")))
-    ("M-;" . 'comment-line)
+    ("M-;" . comment-line)
 )
 
 ; merging
-(use-package emacs
+(use-package smerge-mode
     :custom-face
     (smerge-markers ((t (:foreground "black" :background "white" :weight bold))))
 )
@@ -319,6 +318,19 @@
     :config
     (setq auto-revert-interval 1)
     (setq auto-revert-check-vc-info t)
+)
+
+; highlight changes
+(use-package hilit-chg
+    :init
+    (global-highlight-changes-mode)
+
+    :config
+    (advice-add 'save-buffer :after (lambda (&rest _) (when (and highlight-changes-mode (eq this-command 'save-buffer)) (highlight-changes-remove-highlight (point-min) (point-max)))))
+
+    :custom-face
+    (highlight-changes        ((t (:foreground unspecified :background "brightwhite"))))
+    (highlight-changes-delete ((t (:foreground unspecified :background "brightcyan"  :underline unspecified))))
 )
 
 ; persist undo data
@@ -369,12 +381,12 @@
     (font-lock-variable-name-face    ((t (:foreground "yellow"))))
     (font-lock-constant-face         ((t (:foreground "yellow"))))
     (font-lock-string-face           ((t (:foreground "green"))))
-    (font-lock-misc-punctuation-face ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
-    (font-lock-regexp-face           ((t (:foreground "brightgreen"                                   :inherit 'unspecified))))
-    (font-lock-escape-face           ((t (:foreground "green"                            :weight bold :inherit 'unspecified))))
+    (font-lock-misc-punctuation-face ((t (:foreground "green"                            :weight bold :inherit unspecified))))
+    (font-lock-regexp-face           ((t (:foreground "brightgreen"                                   :inherit unspecified))))
+    (font-lock-escape-face           ((t (:foreground "green"                            :weight bold :inherit unspecified))))
     (font-lock-type-face             ((t (:foreground "cyan"))))
     (font-lock-comment-face          ((t (:foreground "red"))))
-    (font-lock-warning-face          ((t (:foreground "black" :background "brightyellow"              :inherit 'unspecified))))
+    (font-lock-warning-face          ((t (:foreground "black" :background "brightyellow"              :inherit unspecified))))
 )
 
 ; prompt install treesit grammars and automatically switch to treesit modes when available
@@ -382,17 +394,17 @@
     :ensure t
 
     :config
-    (global-treesit-auto-mode)
     (setq treesit-auto-install 'prompt)
-    (setq treesit-auto-add-to-auto-mode-alist 'all)
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode)
 )
 
 ; interface with lsp servers
 ; not enabled by default
 (use-package eglot
     :custom-face
-    (eglot-diagnostic-tag-unnecessary-face ((t (:foreground "black"         :background "brightyellow" :inherit 'unspecified))))
-    (eglot-highlight-symbol-face           ((t (:foreground "brightmagenta"                            :inherit 'unspecified))))
+    (eglot-diagnostic-tag-unnecessary-face ((t (:foreground "black"         :background "brightyellow" :inherit unspecified))))
+    (eglot-highlight-symbol-face           ((t (:foreground "brightmagenta"                            :inherit unspecified))))
 )
 
 ; ensure other language modes are installed
@@ -421,13 +433,13 @@
     (setq dired-listing-switches "-lohaF")
 
     :custom-face
-    (dired-header     ((t (:foreground "brightwhite"                                  :inherit 'unspecified))))
-    (dired-directory  ((t (:foreground "green"                                        :inherit 'unspecified))))
-    (dired-symlink    ((t (:foreground "magenta"                                      :inherit 'unspecified))))
-    (dired-mark       ((t (:foreground "black"       :background "white" :weight bold :inherit 'unspecified))))
-    (dired-marked     ((t (:foreground "yellow"                          :weight bold :inherit 'unspecified))))
-    (dired-flagged    ((t (:foreground "red"                             :weight bold :inherit 'unspecified))))
-    (dired-perm-write ((t (                                                           :inherit 'unspecified))))
+    (dired-header     ((t (:foreground "brightwhite"                                  :inherit unspecified))))
+    (dired-directory  ((t (:foreground "green"                                        :inherit unspecified))))
+    (dired-symlink    ((t (:foreground "magenta"                                      :inherit unspecified))))
+    (dired-mark       ((t (:foreground "black"       :background "white" :weight bold :inherit unspecified))))
+    (dired-marked     ((t (:foreground "yellow"                          :weight bold :inherit unspecified))))
+    (dired-flagged    ((t (:foreground "red"                             :weight bold :inherit unspecified))))
+    (dired-perm-write ((t (                                                           :inherit unspecified))))
 )
 
 
