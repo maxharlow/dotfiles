@@ -39,7 +39,7 @@
     " "
     (:eval (if (project-current) (file-name-nondirectory (directory-file-name (project-root (project-current)))))) ; project
     (:eval (if (project-current) " → "))
-    (:eval (if (project-current) (file-relative-name (buffer-name) (project-root (project-current))) (substring-no-properties (buffer-name)))) ; buffer
+    (:eval (if (project-current) (file-relative-name (or buffer-file-name (buffer-name)) (project-root (project-current))) (substring-no-properties (buffer-name)))) ; buffer
     " "
     (:eval (if (buffer-modified-p) "•" (if buffer-read-only "×"))) ; saved?
     " │ "
@@ -108,12 +108,25 @@
     :config
     (setq vertico-resize t)
 
+    :hook
+    (minibuffer-setup . vertico-repeat-save)
+
     :bind
     ("C-x C-z" . vertico-repeat)
 
     :custom-face
     (vertico-current ((t (:foreground "black" :background "white" :inherit unspecified))))
 )
+
+; persist minibuffer history
+(use-package savehist
+    :init
+    (savehist-mode)
+
+    :config
+    (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
+)
+
 
 ; show annotations inside completion interface
 (use-package marginalia
@@ -261,7 +274,7 @@
     (global-smartscan-mode)
 )
 
-; camelcase-aware point movement
+; move point by character type changes, including camelcase
 (use-package syntax-subword
     :ensure t
 
@@ -405,12 +418,6 @@
 (use-package csv-mode
     :ensure t
 )
-(use-package json-mode
-    :ensure t
-)
-(use-package yaml-mode
-    :ensure t
-)
 (use-package dotenv-mode
     :ensure t
 )
@@ -433,6 +440,7 @@
 (use-package dired
     :config
     (setq dired-listing-switches "-lohaF")
+    (setq dired-kill-when-opening-new-dired-buffer t)
 
     :custom-face
     (dired-header     ((t (:foreground "brightwhite"                                  :inherit unspecified))))
