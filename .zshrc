@@ -4,6 +4,12 @@ setopt NOCLOBBER # don't overwrite existing files
 disable r
 
 
+# environment
+typeset -U path
+(( $+commands[brew] )) && eval "$(brew shellenv)"
+path+=($HOME/.local/bin)
+
+
 # colours
 export COLORTERM='color16'
 export LESS_TERMCAP_md=$(tput bold) # bold
