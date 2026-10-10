@@ -127,30 +127,25 @@
 )
 
 ; completion-at-point interface
-(use-package company
+(use-package corfu
     :ensure t
 
     :hook
-    (prog-mode . company-mode)
+    (prog-mode . corfu-mode)
 
     :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 2)
-    (setq company-tooltip-align-annotations t)
+    (setq corfu-auto t)
+    (setq corfu-auto-delay 0)
+    (setq corfu-auto-prefix 2)
 
     :bind
-    ("TAB" . company-indent-or-complete-common)
-    (:map company-active-map ("TAB" . company-abort))
+    (:map corfu-map ("TAB" . corfu-quit))
 
     :custom-face
-    (company-tooltip                      ((t (:foreground "black"       :background "white"))))
-    (company-tooltip-selection            ((t (:foreground "white"       :background "brightblue"))))
-    (company-tooltip-common               ((t (:foreground "brightblack"                           :underline t))))
-    (company-tooltip-common-selection     ((t (:foreground "white"))))
-    (company-tooltip-annotation           ((t (:foreground "brightred"))))
-    (company-tooltip-annotation-selection ((t (:foreground "white"))))
-    (company-tooltip-scrollbar-track      ((t (                          :background "brightblack"))))
-    (company-tooltip-scrollbar-thumb      ((t (                          :background "brightwhite"))))
+    (corfu-default     ((t (:foreground "black"       :background "white"))))
+    (corfu-current     ((t (:foreground "white"       :background "brightblue"))))
+    (corfu-annotations ((t (:foreground "brightred"))))
+    (corfu-bar         ((t (                          :background "brightwhite"))))
 )
 
 ; improved search and navigation commands
