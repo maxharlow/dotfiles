@@ -273,17 +273,16 @@
 ; EDITING
 
 (use-package emacs
-    :init
-    (prefer-coding-system 'utf-8-unix) ; default character encoding
-
     :config
+    (setq-default indent-tabs-mode nil) ; indent with spaces
+    (setq-default tab-width 4) ; display tabs four wide
+
     ; autosaves and backups
+    (setopt auto-save-visited-interval 1)
     (auto-save-visited-mode t)
-    (setq auto-save-timeout 1)
-    (setq auto-save-interval 20)
+    (setq auto-save-default nil)
     (setq make-backup-files nil)
     (setq create-lockfiles nil)
-    (setq kill-buffer-delete-auto-save-files t)
 
     (setq kill-whole-line t) ; when point is in column zero kill the newline as well as the line itself
 
@@ -292,6 +291,8 @@
     ; text editing
     (add-hook 'text-mode-hook (lambda () (setq truncate-lines nil)))
     (add-hook 'text-mode-hook (lambda () (setq word-wrap t)))
+
+    (add-hook 'find-file-hook #'delete-trailing-whitespace-mode) ; trim trailing whitespace on save
 
     :bind
     ; editing shortcuts
@@ -311,7 +312,7 @@
     (global-auto-revert-mode)
 
     :config
-    (setq auto-revert-interval 1)
+    (setq auto-revert-interval 5)
     (setq auto-revert-check-vc-info t)
 )
 
@@ -354,14 +355,6 @@
     :bind
     ("ESC <down>" . move-text-down)
     ("ESC <up>"   . move-text-up)
-)
-
-; respect editorconfig files
-(use-package editorconfig
-    :ensure t
-
-    :init
-    (editorconfig-mode)
 )
 
 
@@ -420,6 +413,20 @@
 )
 (use-package dotenv-mode
     :ensure t
+)
+
+; language-specific configuration
+(use-package typescript-ts-mode
+    :defer t
+
+    :config
+    (setq json-ts-mode-indent-offset 4)
+)
+(use-package json-ts-mode
+    :defer t
+
+    :config
+    (setq typescript-ts-mode-indent-offset 4)
 )
 
 ; directory listings
