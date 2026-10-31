@@ -93,6 +93,7 @@ zstyle ':vcs_info:git:*' actionformats ' (%b)%c%u [%a]'
 precmd() {
     vcs_info
     echo -ne "\e]0;${$(basename $PWD)//$(basename $HOME)/~}\a"
+    test -n "$TMUX" && tmux rename-window "${$(basename $PWD)//$(basename $HOME)/~}"
 }
 
 PROMPT='

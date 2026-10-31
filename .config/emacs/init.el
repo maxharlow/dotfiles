@@ -52,6 +52,7 @@
     (:eval (upcase (symbol-name buffer-file-coding-system)))
     " │ "
     mode-name
+    " "
 ))
 
 (use-package emacs
@@ -126,7 +127,6 @@
     :config
     (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
 )
-
 
 ; show annotations inside completion interface
 (use-package marginalia
